@@ -4,7 +4,7 @@
 //
 //  Created by Mac on 16/8/31.
 //  Copyright © 2016年 Lneayce. All rights reserved.
-//
+//  //  封装网络请求  ++++   目前使用AFHTTPRequestOperation来操作, 后续添加 session
 
 #import <Foundation/Foundation.h>
 

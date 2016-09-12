@@ -17,7 +17,7 @@
 @property (nonatomic, copy) NSString *title;
 /**
  *   3.主题地址     */
-@property (nonatomic, strong) NSURL *url;
+@property (nonatomic, copy) NSString *url;
 /**
  *   4.楼主     */
 @property (nonatomic, strong) V2MemberModel *member;

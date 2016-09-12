@@ -10,49 +10,14 @@
 #import "V2OperationTool.h"
 #import <MJExtension.h>
 #import "V2DataBaseTool.h"
-#import <FMDB.h>
+#import "V2APIFile.h"
 #import "YCGloble.h"
-
-
-
-
-
-#pragma mark- API
-#define agetSiteInfo @"https://www.v2ex.com/api/site/info.json"
-#define agetSiteState @"https://www.v2ex.com/api/site/stats.json"
-#define agetAllNodes @"https://www.v2ex.com/api/nodes/all.json"
-#define agetLatest @"https://www.v2ex.com/api/topics/latest.json"
-#define agetHotest @"https://www.v2ex.com/api/topics/hot.json"
-
-#define agetNode @"https://www.v2ex.com/api/nodes/show.json"
-#define kNodeId @"id"
-#define kNodeName @"name"
-
-#define agetTopic @"https://www.v2ex.com/api/topics/show.json"
-#define kTopicId @"id"
-#define kTopicUsername @"username"
-#define kTopicNodeId @"node_id"
-#define kTopicNodeName @"node_name"
-
-#define agetReplaies @"https://www.v2ex.com/api/replies/show.json"
-#define kReplyTopicId @"topic_id"
-#define kPage @"page"
-#define kPageSize @"page_size"
-
-#define agetMember @"https://www.v2ex.com/api/members/show.json"
-#define kMemberId @"id"
-#define kMemberName @"username"
-
-
-
+#import "V2HtmlParser.h"
 
 
 #define kSiteInfoFile @"siteInfo"
 #define kSiteStateFile @"siteState"
-#define kAllNodesFile @"allNodes"
-/**
- *   document文件   */
-#define kUserUserDefaults [NSUserDefaults standardUserDefaults]
+
 
 
 /**
@@ -70,28 +35,11 @@ static NSArray *_latestTopics;
 /**
  *   最热主题     */
 static NSArray *_hotestTopics;
+/**
+ *   tabs 里的话题     */
+static NSMutableDictionary *_tabsTopics;
 
-/**
- *    数据库     */
-static const FMDatabase *V2DB;
-#define V2DBName @"V2DB.sqlite"
-#define dbIdStr @"idStr"
-#define dbDictData @"DictData"
-/**
- *   所有节点     */
-#define dbAllNodesT @"t_allNodes"
-//#define dbIdStr @"all_node_idstr"
-//#define dbDictData @"all_node_dict"
-/**
- *   最热数据     */
-#define dbHotTopicT @"t_hotestTopic"
-//#define dbIdStr @"hot_topic_idstr"
-//#define dbDictData @"hot_topic_dict"
-/**
- *   最新数据     */
-#define dbLatestTopicT @"t_latestTopic"
-//#define dbIdStr @"latest_topic_idstr"
-//#define dbDictData @"latest_topic_dict"
+
 
 
 
@@ -110,15 +58,17 @@ static const FMDatabase *V2DB;
 
 + (void)setupAllNodesDB
 {
-    V2DB = [FMDatabase databaseWithPath:[YCDocumentPath stringByAppendingPathComponent:V2DBName]];
-    if ([V2DB open]) {
+    
+    if ([V2DataBaseTool openDataBase]) {
         /**
          *   创建三个表     */
-        [self createTableWithTableName:dbAllNodesT idStr:dbIdStr blobStr:dbDictData];
+        [V2DataBaseTool createTableWithTableName:dbAllNodesT idStr:dbIdStr blobStr:dbDictData];
         
-        [self createTableWithTableName:dbHotTopicT idStr:dbIdStr blobStr:dbDictData];
+        [V2DataBaseTool createTableWithTableName:dbHotTopicT idStr:dbIdStr blobStr:dbDictData];
         
-        [self createTableWithTableName:dbLatestTopicT idStr:dbIdStr blobStr:dbDictData];
+        [V2DataBaseTool createTableWithTableName:dbLatestTopicT idStr:dbIdStr blobStr:dbDictData];
+        
+        [V2DataBaseTool createTableWithTableName:dbTopicsT idStr:dbIdStr blobStr:dbDictData];
         
     }
 }
@@ -135,19 +85,53 @@ static const FMDatabase *V2DB;
 
 
 
-#pragma mark- 公布的API 接口调用返回的数据
+#pragma mark- html 解析的数据
 /**
  *   对应标签 tab 的话题     */
-+ (void)getTopicsWithTab:(V2TabModel *)tab page:(NSNumber *)page success:(void (^)(NSArray<V2TopicModel *> *topics))success failure:(void (^)(NSError *error))failure
++ (void)getTopicsWithTab:(NSString *)tab success:(void (^)(NSArray<V2TopicModel *> *topics))success failure:(void (^)(NSError *error))failure
 {
-    
+    NSMutableDictionary *para = [NSMutableDictionary dictionary];
+    para[kTab] = tab;
+    [V2OperationTool GET:V2Domain dataType:V2DataTypeHTTP parameters:para success:^(id responseObject) {
+        [V2HtmlParser parseTopicsWithDocument:responseObject Success:^(NSArray<V2TopicModel *> *topics) {
+            /**
+             *   保存到字典     */
+            _tabsTopics[tab] = topics;
+            
+            success(topics);
+            
+            //  失败就不返回
+        } failure:failure];
+    } failure:^(NSError *error) {
+        /**
+         *   网络获取失败返回缓存的     */
+        success(_tabsTopics[tab]);
+        
+        failure(error);
+    }];
 }
 
 /**
  *   获取某个节点的话题     */
-+ (void)getTopicsWithNode:(V2NodeModel *)node success:(void (^)(NSArray<V2TopicModel *> *topics))success failure:(void (^)(NSError *error))failure
++ (void)getTopicsWithNode:(V2NodeModel *)node page:(NSNumber *)page success:(void (^)(NSArray<V2TopicModel *> *topics))success failure:(void (^)(NSError *error))failure
 {
-    
+    NSMutableDictionary *para = [NSMutableDictionary dictionary];
+    para[kHPage] = page;
+    [V2OperationTool GET:node.url dataType:V2DataTypeHTTP parameters:para success:^(id responseObject) {
+        [V2HtmlParser parseTopicsWithDocument:responseObject Success:^(NSArray<V2TopicModel *> *topics) {
+            /**
+             *   保存到缓存     */
+            _tabsTopics[node.name] = topics;
+            
+            success(topics);
+        } failure:failure];
+    } failure:^(NSError *error) {
+        /**
+         *   网络获取失败返回缓存的     */
+        success(_tabsTopics[node.name]);
+        
+        failure(error);
+    }];
 }
 
 /**
@@ -155,45 +139,81 @@ static const FMDatabase *V2DB;
 + (void)getTopicAndRepliesFromHtmlWithTopic:(V2TopicModel *)topic success:(void (^)(V2TopicModel *topic, NSArray<V2ReplyModel *> *replies))success failure:(void (^)(NSError *error))failure
 {
     
+    [V2OperationTool GET:topic.url dataType:V2DataTypeHTTP parameters:nil success:^(id responseObject) {
+        //  解析网页
+//        [V2HtmlParser parseTopicAndRepliesFromHtmlDocument:<#(NSData *)#> success:<#^(V2TopicModel *topic, NSArray<V2ReplyModel *> *replies)success#> failure:<#^(NSError *error)failure#>
+        
+    } failure:^(NSError *error) {
+        YCLog(@"网络请求 topic 失败");
+    }];
 }
 
 /**
  *   获取更多话题     */
-+ (void)getMoreTpoicsUnderTab:(V2TabModel *)tab success:(void (^)(NSArray<V2TopicModel *> *topics))success failure:(void (^)(NSError *error))failure
++ (void)getMoreTpoics:(V2TabModel *)tab page:(NSNumber *)page success:(void (^)(NSArray<V2TopicModel *> *topics))success failure:(void (^)(NSError *error))failure
 {
-    
+    NSMutableDictionary *para = [NSMutableDictionary dictionary];
+    para[kHPage] = page;
+    [V2OperationTool GET:agetMoreTopic dataType:V2DataTypeHTTP parameters:para success:^(id responseObject) {
+        [V2HtmlParser parseTopicsWithDocument:responseObject Success:^(NSArray<V2TopicModel *> *topics) {
+            
+            _tabsTopics[@"more"] = topics;
+            
+            success(topics);
+            
+        } failure:failure];
+    } failure:^(NSError *error) {
+        /**
+         *   网络获取失败返回缓存的     */
+        success(_tabsTopics[@"more"]);
+        
+        failure(error);
+    }];
 }
 
 /**
  *   获取 tabs     */
 + (void)getTabsSuccess:(void (^)(NSArray<V2TabModel *> *tabs))success failure:(void (^)(NSError *error))failure
 {
-    
+    [V2OperationTool GET:V2Domain dataType:V2DataTypeHTTP parameters:nil success:^(id responseObject) {
+        [V2HtmlParser parseTabsWithDocument:responseObject success:success failure:failure];
+        
+    } failure:failure];
 }
 
 /**
  *    更新 tabs     */
 + (void)updateTabsSuccess:(void (^)(NSArray<V2TabModel *> *tabs))success failure:(void (^)(NSError *error))failure
 {
-    
+    [V2OperationTool GET:V2Domain dataType:V2DataTypeHTTP parameters:nil success:^(id responseObject) {
+        [V2HtmlParser parseTabsWithDocument:responseObject success:success failure:failure];
+        
+    } failure:failure];
 }
 
 /**
  *   获取节点导航     */
 + (void)nodesNavigateGroupsSuccess:(void (^)(NSArray<V2NodesGroup *> *siteInfo))success failure:(void (^)(NSError *error))failure
 {
-    
+    [V2OperationTool GET:V2Domain dataType:V2DataTypeHTTP parameters:nil success:^(id responseObject) {
+        [V2HtmlParser parseNodesNavigateGroupsWithDocument:responseObject success:success failure:failure];
+        
+    } failure:failure];
 }
 
 /**
  *   更新节点导航     */
 + (void)updateNodesNavigateGroupsGroupsSuccess:(void (^)(NSArray<V2NodesGroup *> *siteInfo))success failure:(void (^)(NSError *error))failure
 {
-    
+    [V2OperationTool GET:V2Domain dataType:V2DataTypeHTTP parameters:nil success:^(id responseObject) {
+        [V2HtmlParser parseNodesNavigateGroupsWithDocument:responseObject success:success failure:failure];
+        
+    } failure:failure];
 }
 
 
 
+#pragma mark- 公布的API 接口调用返回的数据
 #pragma mark 站点
 /**
  *   获取站点信息     */
@@ -274,7 +294,7 @@ static const FMDatabase *V2DB;
         return;
     } else {
         //  本来没值,从数据库加载
-        _allNodes = [V2NodeModel mj_objectArrayWithKeyValuesArray:[self allDataFromDataBaseFromTable:dbAllNodesT]];
+        _allNodes = [V2NodeModel mj_objectArrayWithKeyValuesArray:[V2DataBaseTool allDataFromDataBaseFromTable:dbAllNodesT]];
         
         if (_allNodes.count > 0) {
             success(_allNodes);
@@ -297,7 +317,7 @@ static const FMDatabase *V2DB;
                     YCPlog;
                     /**
                      *   将所有节点的数据保存到...还是存到数据库吧....     */
-                    [self saveDataArray:responseObject toTable:dbAllNodesT];
+                    [V2DataBaseTool saveDataArray:responseObject toTable:dbAllNodesT];
                     
                     
                     
@@ -335,8 +355,8 @@ static const FMDatabase *V2DB;
         
         /**
          *   更新数据库中对应节点的信息     */
-        if ([self deleteDict:responseObject fromTable:dbAllNodesT]) {
-            [self insertDict:responseObject ToTable:dbAllNodesT];
+        if ([V2DataBaseTool deleteDict:responseObject fromTable:dbAllNodesT]) {
+            [V2DataBaseTool insertDict:responseObject ToTable:dbAllNodesT];
         } else
         {
             
@@ -350,7 +370,7 @@ static const FMDatabase *V2DB;
         /**
          *   失败了从数据库取     */
         if (idStr) {
-            NSDictionary *nodeDict = [[self queryDataFromTable:dbAllNodesT withId:idStr] firstObject];
+            NSDictionary *nodeDict = [[V2DataBaseTool queryDataFromTable:dbAllNodesT withId:idStr] firstObject];
             YCLog(@"nodeDict = %@", nodeDict);
             if (nodeDict) {
                 V2NodeModel *node = [V2NodeModel mj_objectWithKeyValues:nodeDict];
@@ -378,7 +398,7 @@ static const FMDatabase *V2DB;
     [V2OperationTool GET:agetTopic dataType:V2DataTypeJSON parameters:@{kTopicId:topicId} success:^(NSArray * responseObject) {
         
         YCPlog;
-        YCLog(@"topic = %@", responseObject);
+//        YCLog(@"topic = %@", responseObject);
         
         /**
          *   更新数据     */
@@ -408,7 +428,7 @@ static const FMDatabase *V2DB;
             
             /**
              *    保存到数据库     */
-            [self saveDataArray:responseObject toTable:dbLatestTopicT];
+            [V2DataBaseTool saveDataArray:responseObject toTable:dbLatestTopicT];
             
             /**
              *   转换成模型数组返回     */
@@ -419,7 +439,7 @@ static const FMDatabase *V2DB;
     } failure:^(NSError *error) {
         /**
          *   获取失败, 先从数据库中拿来用先     */
-        NSArray *topicsDictArray = [self allDataFromDataBaseFromTable:dbLatestTopicT];
+        NSArray *topicsDictArray = [V2DataBaseTool allDataFromDataBaseFromTable:dbLatestTopicT];
         if (topicsDictArray.count > 0) {
             NSArray<V2TopicModel *> *topics = [V2TopicModel mj_objectArrayWithKeyValuesArray:topicsDictArray];
             
@@ -445,7 +465,7 @@ static const FMDatabase *V2DB;
             
             /**
              *   保存到数据库     */
-            [self saveDataArray:responseObject toTable:dbHotTopicT];
+            [V2DataBaseTool saveDataArray:responseObject toTable:dbHotTopicT];
             
             NSArray *arr = [V2TopicModel mj_objectArrayWithKeyValuesArray:responseObject];
             
@@ -455,7 +475,7 @@ static const FMDatabase *V2DB;
     } failure:^(NSError *error) {
         /**
          *   网络加载失败, 就从数据库取     */
-        NSArray *hotDicts = [self allDataFromDataBaseFromTable:dbHotTopicT];
+        NSArray *hotDicts = [V2DataBaseTool allDataFromDataBaseFromTable:dbHotTopicT];
         if (hotDicts.count > 0) {
             //  转模型返回
             NSArray<V2TopicModel *> *hots = [V2TopicModel mj_objectArrayWithKeyValuesArray:hotDicts];
@@ -576,111 +596,6 @@ static const FMDatabase *V2DB;
 
 
 
-#pragma mark- 数据库存取方法
-/**
- *   创建表     */
-+ (BOOL)createTableWithTableName:(NSString *)tableName idStr:(NSString *)idStr blobStr:(NSString *)blobStr
-{
-    /**
-     *   创建表(id, access_token, statuse_idstr, statues_dict     */
-    NSString *createSql = [NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS %@\
-                           (id INTEGER PRIMARY KEY AUTOINCREMENT,\
-                           %@ TEXT NOT NULL,\
-                           %@ BLOB NOT NULL);", tableName, idStr, blobStr];
-    
-    if ([V2DB executeUpdate:createSql]) {
-        NSLog(@"创建%@成功", tableName);
-        return YES;
-    } else
-    {
-        NSLog(@"创建%@失败", tableName);
-        return NO;
-    }
-}
 
-/**
- *   保存数组到表xxx     */
-+ (BOOL)saveDataArray:(NSArray<NSDictionary *> *)dataArray toTable:(NSString *)tableName
-{
-    /**
-     *   更新了就清空原来的表     */
-    [self clearTable:tableName];
-    
-    [dataArray enumerateObjectsUsingBlock:^(NSDictionary *  _Nonnull dict, NSUInteger idx, BOOL * _Nonnull stop) {
-        [self insertDict:dict ToTable:tableName];
-    }];
-
-    return YES;
-}
-
-/**
- *   从表获取所有数据     */
-+ (NSArray<NSDictionary *> *)allDataFromDataBaseFromTable:(NSString *)tableName
-{
-    return [self queryDataFromTable:tableName withId:nil];
-}
-
-
-/**
- *   清除整个表的内容     */
-+ (BOOL)clearTable:(NSString *)tableName
-{
-    return [self deleteDict:nil fromTable:tableName];
-}
-
-/**
- *   根据 id 查表     */
-+ (NSArray<NSDictionary *> *)queryDataFromTable:(NSString *)tableName withId:(NSString *)idStr
-{
-    NSString *query = nil;
-    if (idStr) {
-        query = [NSString stringWithFormat:@"SELECT %@, %@ FROM %@ DESC WHERE %@ = %@", dbIdStr, dbDictData, tableName, dbIdStr, idStr];
-    } else
-    {
-        query = [NSString stringWithFormat:@"SELECT %@, %@ FROM %@;", dbIdStr, dbDictData, tableName];
-    }
-    
-    NSMutableArray *arrayM = [NSMutableArray array];
-    
-    FMResultSet *resultset = [V2DB executeQuery:query];
-    
-    while ([resultset next]) {
-        
-        NSData *data = [resultset dataForColumn:dbDictData];
-        
-        NSDictionary *dict = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-        
-        //        [arrayM addObject:[V2NodeModel mj_objectWithKeyValues:dict]];
-        [arrayM addObject:dict];
-    }
-    
-    return [arrayM copy];
-}
-
-/**
- *   将一个字典存到某个表     */
-+ (BOOL)insertDict:(NSDictionary *)dict ToTable:(NSString *)tableName
-{
-    NSString *insert = [NSString stringWithFormat:@"INSERT INTO %@(%@, %@) VALUES(?, ?);", tableName, dbIdStr, dbDictData];
-    
-    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:dict];
-    
-    return [V2DB executeUpdate:insert, dict[@"id"], data];
-}
-
-/**
- *   删除表中某个 id 的值     */
-+ (BOOL)deleteDict:(NSDictionary *)dict fromTable:(NSString *)tableName
-{
-    NSString *delete = nil;
-    if (dict) {
-        delete = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@ = %@;", tableName, dbIdStr, dict[@"id"]];
-    } else
-    {
-        delete = [NSString stringWithFormat:@"DELETE FROM %@", tableName];
-    }
-    
-    return [V2DB executeUpdate:delete];
-}
 
 @end

@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import "V2InitialManager.h"
+#import "V2DrawerController.h"
 
 @interface AppDelegate ()
 
@@ -17,6 +19,20 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    UIWindow *window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    self.window = window;
+    
+    
+    //  初始化抽屉控制器
+    [V2InitialManager initializeRootViewControllerSuccess:^(__kindof V2DrawerController *rootViewController) {
+        self.window.rootViewController = rootViewController;
+        [self.window makeKeyAndVisible];
+        
+    } failure:^(NSError *error) {
+        NSLog(@"%@", error);
+    }];
+
     return YES;
 }
 

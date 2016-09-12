@@ -6,7 +6,7 @@
 //  Copyright © 2016年 Lneayce. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 @class V2MemberModel;
 @interface V2ReplyModel : NSObject
 /**
@@ -31,4 +31,10 @@
 /**
  *   7,最后修改时间     */
 @property (nonatomic, copy) NSString *last_modified;
+
+
+/**
+ *   在 replyCell中的高度     */
+@property (nonatomic, assign) CGFloat heightInCell;
+
 @end

@@ -18,6 +18,8 @@
 #import "YCGloble.h"
 #import "OCGumbo+Query.h"
 #import "V2HtmlParser.h"
+#import "V2TopicModel.h"
+#import "V2NodesGroup.h"
 
 
 @interface ViewController ()
@@ -109,7 +111,42 @@
     
     //  完善客户端
  
+    //  UI 的完善, 坑: tableView 未找到使背景完全透明, cell, tableView.backgroudView, tableView.backgroudColor 都设置为透明后, 还是会有半透明黑色渲染
     
+    //  学习了 iOS8之后的自动布局, 不用手动计算每个控件的位置了, 但是性能可能有所牺牲, 但是代码量少了很多
+    //  通过自定义 cell 来使用 xib 进行约束设置, 好使用 iOS 的autoSizingCell 设置
+    
+    //  使用 MMDrawer 来策划菜单, 设置了三个控制器
+    
+    //  通过通知来传递事件信息, 减小代码的复杂性
+    
+    //  简单使用了下 Masonry 和 SDAutolayout, 后者感觉更易用点, 而且国人开发, 文档阅读比较好
+    //  另一个自动布局模板没使用, 其貌似做了优化, 单其下评论有说是在主线程来计算的, 其用之方法为 iOS8之前, 大多数人用的先给个不显示的 cell 来放数据后在拿到高, 这也是要求 cell 有自动布局, 而且要设置成preferMaxWidth 等参数, 计算前最好还布局下子控件, 拿到的才准, 这个也是没次拿到计算, 不过作者说他做了缓存处理, 这个还没使用
+    
+    //
+    
+
+    
+    
+//    将要:
+//         完善数据库的存储信息结构
+//    分为 三大表: 节点 .  tab.  topic. (以后看看要不要加浏览记录)
+//    
+//    topic 的字段: 自增 id, topic.id, nodeName, tabName, topic,
+//     这样就可以根据节点/tab/topicid 搜索, 减小数据冗余
+//    
+//    拿某 tab 的话题时先从数据库取, 更新才从网络下载, 同时成功时保存,
+//        保存时遍历获取的话题, 先删再曾, 免得重复
+//    
+//    对于更新节点话题, 是先查不是删, 没有再插入, 因为节点话题不带有 tab 标签, 删了曾会删掉 tab 字段, 之后查 tab 的时候就没有这个话题了, 而如果有的话不插入, 反正原来有的话题带有其节点信息
+//    对于新的节点话题, 再更新 tab 时可能会有, 这时也是删了在曾, tab 下 down 下来的信息比较全面,
+//    
+//    对于点击进入详情或者从公开 API 获取的, 也是删再曾, 信息更全
+//    
+//    
+//    
+//    显示详情页面, 测试下自带的 textKit 使用 html 格式直接显示富文本
+//    
     
 
 
@@ -264,56 +301,14 @@
      *   所以....我又用会 ono 了....   又钻了次牛角尖....  不过也弄明白了之前怎么都搜不到的原因,....     */
     
     
-//    [self OOCGumboUse];
-    
-    
-    
-    
 //    
     AFHTTPRequestOperationManager *mgr = [AFHTTPRequestOperationManager manager];
-    mgr.responseSerializer = [AFOnoResponseSerializer HTMLResponseSerializer];//[AFHTTPResponseSerializer serializer];
-    
-    [mgr GET:@"https://www.v2ex.com/" parameters:nil success:^(AFHTTPRequestOperation *operation, ONOXMLDocument *doc) {
-//        NSLog(@"%@", doc );
+    mgr.responseSerializer = [AFHTTPResponseSerializer serializer];
+//    [AFOnoResponseSerializer HTMLResponseSerializer];//
+    [mgr GET:@"https://www.v2ex.com/" parameters:nil success:^(AFHTTPRequestOperation *operation, id doc) {
         
-        /**
-         *   当前获取的是tab=全部     */
-        
-        [doc.rootElement.children enumerateObjectsUsingBlock:^(ONOXMLElement *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            NSLog(@"chil = %@", obj.attributes);
-        }];
+        [self onoUseWithData:doc];
 
-        ONOXMLElement *topBox = [doc firstChildWithCSS:@".box"];
-        ONOXMLElement *topTabsCell = [topBox firstChildWithCSS:@".cell"];
-        for (ONOXMLElement *tab in [topTabsCell CSS:@"a"]) {
-            YCLog(@"tab.tag = %@, %@ = %@", tab.tag, tab.stringValue, tab.attributes[@"href"]);
-        }
-//        ONOXMLElement *test = [tabsnode firstChildWithCSS:@".box"];
-        int cou = 0;
-//        for (ONOXMLElement *ele in [doc CSS:@".avatar"]) {
-//            NSLog(@"aaaaaa-----%@", ele.tag);
-//            cou++;
-//        }
-        
-        YCLog(@"cccccccc===%d", cou);
-//        ONOXMLElement *content = [test firstChildWithCSS:@".cell item"];
-//        ONOXMLElement *main = [content firstChildWithCSS:@"a"];
-//        ONOXMLElement *box = [main firstChildWithCSS:@"a"];
-//        NSLog(@"%@-----------", main.stringValue);
-//        NSMutableArray *arr = [inner CSS:@"a.tab"];
-//        [arr enumerateObjectsUsingBlock:^(ONOXMLElement *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//            NSLog(@"%@", obj.attributes
-//                  );
-//
-//        }];
-    
-////
-        
-//        ONOXMLElement *postsParentElement= [doc firstChildWithXPath:@"//*[@id=\"Tabs\"]"]; //寻找该 XPath 代表的 HTML 节点,
-//        //遍历其子节点,
-//        [postsParentElement.children enumerateObjectsUsingBlock:^(ONOXMLElement *element, NSUInteger idx, BOOL * _Nonnull stop) {
-//            NSLog(@"%@",element);
-//        }];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"shibai %@", error);
@@ -321,6 +316,19 @@
     
 
     
+}
+
+#pragma mark OnoUse
+- (void)onoUseWithData:(NSData *)data
+{
+    [V2HtmlParser parseTopicsWithDocument:data Success:^(NSArray<V2TopicModel *> *topics) {
+        [topics enumerateObjectsUsingBlock:^(V2TopicModel * _Nonnull topic, NSUInteger idx, BOOL * _Nonnull stop) {
+            YCLog(@" topic.title = %@, --- 回复数:%@ ---- topic.url = %@, topic.id = %@, \n member.name = %@, ----- member.url = %@, ---- member.avatar = %@", topic.title, topic.replies, topic.url, topic.ID, topic.member.username, topic.member.url, topic.member.avatar_normal);
+        }];
+        YCLog(@"topic.count = %d", topics.count);
+    } failure:^(NSError *error) {
+        YCLog(@"失败");
+    }];
 }
 #pragma mark OCGumbo
 - (void)OOCGumboUse
@@ -351,18 +359,8 @@
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
-    [self htmlParser];
+//    [self htmlParser];
     
-//    NSMutableArray *array=[NSMutableArray array];
-//    NSData *data= [NSData dataWithContentsOfURL:[NSURL URLWithString:@"https://www.v2ex.com/"]]; //下载网页数据
-//    
-//    NSError *error;
-//    ONOXMLDocument *doc=[ONOXMLDocument HTMLDocumentWithData:data error:&error];
-//    ONOXMLElement *postsParentElement= [doc firstChildWithXPath:@"//*[@id=\"Tabs\"]"]; //寻找该 XPath 代表的 HTML 节点,
-//    //遍历其子节点,
-//    [postsParentElement.children enumerateObjectsUsingBlock:^(ONOXMLElement *element, NSUInteger idx, BOOL * _Nonnull stop) {
-//        NSLog(@"%@",element);
-//    }];
 }
 
 @end

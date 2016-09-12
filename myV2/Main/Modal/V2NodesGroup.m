@@ -8,6 +8,6 @@
 
 #import "V2NodesGroup.h"
 
-@implementation NodesGroup
+@implementation V2NodesGroup
 
 @end

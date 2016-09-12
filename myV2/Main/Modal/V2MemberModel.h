@@ -14,22 +14,22 @@
 @property (nonatomic, copy) NSString *ID;
 /**
  *   用户地址       */
-@property (nonatomic, strong) NSURL *url;
+@property (nonatomic, copy) NSString *url;
 /**
  *   用户名     */
 @property (nonatomic, copy) NSString *username;
 /**
  *   主页     */
-@property (nonatomic, strong) NSURL *website;
+@property (nonatomic, copy) NSString *website;
 /**
  *   tuite     */
-@property (nonatomic, strong) NSURL *twitter;
+@property (nonatomic, copy) NSString *twitter;
 /**
  *   psn?     */
-@property (nonatomic, strong) NSURL *psn;
+@property (nonatomic, copy) NSString *psn;
 /**
 github     */
-@property (nonatomic, strong) NSURL *github;
+@property (nonatomic, copy) NSString *github;
 /**
  *   btc?     */
 @property (nonatomic, copy) NSString *btc;
@@ -44,13 +44,13 @@ github     */
 @property (nonatomic, copy) NSString *bio;
 /**
  *   小头像地址     */
-@property (nonatomic, strong) NSURL *avatar_mini;
+@property (nonatomic, copy) NSString *avatar_mini;
 /**
  *   中头像地址     */
-@property (nonatomic, strong) NSURL *avatar_normal;
+@property (nonatomic, copy) NSString *avatar_normal;
 /**
  *   大头像地址     */
-@property (nonatomic, strong) NSURL *avatar_large;
+@property (nonatomic, copy) NSString *avatar_large;
 /**
  *   创建时间     */
 @property (nonatomic, copy) NSString *created;

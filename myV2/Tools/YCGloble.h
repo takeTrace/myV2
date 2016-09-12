@@ -108,6 +108,11 @@ typedef void (^voidBlock)(void);
 #define YCDocumentPath [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]
 
 
+/**
+ *   document文件   */
+#define kUserUserDefaults [NSUserDefaults standardUserDefaults]
+
+
 //  判断 iOS 版本 ````````````````````````````````````````````````
 #define YCiOS7 ([[UIDevice currentDevice].systemVersion floatValue] >= 7.0)
 

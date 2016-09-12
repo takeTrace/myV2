@@ -4,7 +4,7 @@
 //
 //  Created by Mac on 16/8/31.
 //  Copyright © 2016年 Lneayce. All rights reserved.
-//  封装网络请求  ++++   目前使用AFHTTPRequestOperation来操作, 后续添加 session
+ 
 
 #import <Foundation/Foundation.h>
 #import "siteInfoModel.h"
@@ -19,14 +19,14 @@
 @interface V2DataManager : NSObject
 
 
-#pragma mark- 公布的API 接口调用返回的数据
+#pragma mark- html 解析的数据 
 /**
  *   对应标签 tab 的话题     */
-+ (void)getTopicsWithTab:(V2TabModel *)tab page:(NSNumber *)page success:(void (^)(NSArray<V2TopicModel *> *topics))success failure:(void (^)(NSError *error))failure;
++ (void)getTopicsWithTab:(NSString *)tab success:(void (^)(NSArray<V2TopicModel *> *topics))success failure:(void (^)(NSError *error))failure;
 
 /**
  *   获取某个节点的话题     */
-+ (void)getTopicsWithNode:(V2NodeModel *)node success:(void (^)(NSArray<V2TopicModel *> *topics))success failure:(void (^)(NSError *error))failure;
++ (void)getTopicsWithNode:(V2NodeModel *)node page:(NSNumber *)page success:(void (^)(NSArray<V2TopicModel *> *topics))success failure:(void (^)(NSError *error))failure;
 
 /**
  *   解析 html 的话题和回复     */
@@ -34,7 +34,7 @@
 
 /**
  *   获取更多话题     */
-+ (void)getMoreTpoicsUnderTab:(V2TabModel *)tab success:(void (^)(NSArray<V2TopicModel *> *topics))success failure:(void (^)(NSError *error))failure;
++ (void)getMoreTpoics:(V2TabModel *)tab page:(NSNumber *)page success:(void (^)(NSArray<V2TopicModel *> *topics))success failure:(void (^)(NSError *error))failure;
 
 /**
  *   获取 tabs     */

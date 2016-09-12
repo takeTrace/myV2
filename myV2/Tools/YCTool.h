@@ -24,7 +24,7 @@
  *
  *  @return Size
  */
-- (CGSize)sizeWithFont:(UIFont *)font boundingSize:(CGSize)size;
+- (CGSize)sizeWithFont:(UIFont  * _Nonnull )font boundingSize:(CGSize)size;
 
 /**
  *  返回一个 View 的子控件的结构
@@ -34,7 +34,7 @@
  *
  *  @return 返回拼接好的字符串
  */
-+ (NSMutableString *)digAllSubViews:(UIView *)superView onXMLString:(NSMutableString *)xml;
++ (NSMutableString * _Nonnull )digAllSubViews:(UIView * _Nonnull )superView onXMLString:(NSMutableString * _Nonnull )xml;
 
 
 /**
@@ -50,34 +50,48 @@
 #pragma mark- UIImage 系列
 
 @interface UIImage (YCTool)
-
+/**
+ *
+ 使用实例:
+ UIImageView  *imageView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 300, SCREENWIDTH, 100)];
+ imageView.contentMode=UIViewContentModeScaleAspectFill;
+ imageView.image=[UIImage boxblurImage:image withBlurNumber:0.5];
+ imageView.clipsToBounds=YES;
+ [self.view addSubview:imageView];
+ *
+ *  @param image 传入图片
+ *  @param blur  透明效果
+ *
+ *  @return 完成图片
+ */
++(UIImage * _Nonnull)boxblurImage:(UIImage * _Nonnull)image withBlurNumber:(CGFloat)blur;
 
 #pragma mark- 生成图片
 /**  给一个 url 的字符串, 返回这个 URL 的图片  */
-+ (UIImage *)imageWithURLString:(NSString *)urlStr;
++ (UIImage * _Nonnull )imageWithURLString:(NSString * _Nonnull )urlStr;
 /**
  * 返回一个设定渲染模式的 Image
  */
-+ (UIImage *)imageNamed:(NSString *)name withRenderingMode:(UIImageRenderingMode)renderingMode;
++ (UIImage * _Nonnull )imageNamed:(NSString * _Nonnull )name withRenderingMode:(UIImageRenderingMode)renderingMode;
 /**
  * 返回一个不受渲染的 Image
  */
-+ (UIImage *)originalImageName:(NSString *)name;
++ (UIImage * _Nonnull )originalImageName:(NSString * _Nonnull )name;
 /**
  *   返回一张圆形剪裁的图片     */
-+ (UIImage *)circleImageWithName:(NSString *)name;
++ (UIImage * _Nonnull )circleImageWithName:(NSString * _Nonnull )name;
 
 /**
  * 返回适配 iOS版本的图片
  */
-+ (UIImage *)imageWithName:(NSString *)name;
++ (UIImage * _Nonnull )imageWithName:(NSString * _Nonnull )name;
 /**
  *   返回一张纯色图片     */
-+ (UIImage *)imageWithColor:(UIColor *)color;
++ (UIImage * _Nonnull )imageWithColor:(UIColor * _Nonnull )color;
 
 #pragma mark-重新设定尺寸
 /**  将不可拉伸区域设定到传入的 imageName 返回  */
-+ (UIImage *)imageWithName:(NSString *)imgName CapInset:(CGFloat)capInset;
++ (UIImage * _Nonnull )imageWithName:(NSString * _Nonnull )imgName CapInset:(CGFloat)capInset;
 /**
  *  返回一个中心拉伸的 image
  *
@@ -85,17 +99,17 @@
  *
  *  @return 由图片拉伸的 Image
  */
-+ (UIImage *)centerStretchImageNamed:(NSString *)name;
++ (UIImage * _Nonnull )centerStretchImageNamed:(NSString * _Nonnull )name;
 
 #pragma mark- 图片加水印
 /**  对象方法, 根据传入的水印图片和文字, 结合原有图片生成并返回一个image  */
-- (UIImage *)addWaterImage:(NSString *)waterImage WaterString:(NSString *)waterShtring;
+- (UIImage * _Nonnull )addWaterImage:(NSString * _Nonnull )waterImage WaterString:(NSString * _Nonnull )waterShtring;
 
 /**  类方法, 根据传入的底图, 水印图和文字合成一个家水印的image返回  */
-+ (UIImage *)imageWithBottomImage:(NSString *)bottomImage WaterImage:(NSString *)waterImage WaterString:(NSString *)waterShtring;
++ (UIImage * _Nonnull )imageWithBottomImage:(NSString * _Nonnull )bottomImage WaterImage:(NSString * _Nonnull )waterImage WaterString:(NSString * _Nonnull )waterShtring;
 
 /**  保存图片  */
-+ (void)writeImage:(UIImage *)img withName:(NSString *)imgName;
++ (void)writeImage:(UIImage * _Nonnull )img withName:(NSString * _Nonnull )imgName;
 
 @end
 
@@ -145,7 +159,7 @@
 
 /**
  *   动画时取消应用的所有交互     */
-+ (void)animateNotInteractableWithDuration:(NSTimeInterval)duration animations:(void (^)(void))animations completion:(void (^ __nullable)(BOOL finished))completion;
++ (void)animateNotInteractableWithDuration:(NSTimeInterval)duration animations:(void (^ _Nonnull)(void))animations completion:(void (^ __nullable)(BOOL finished))completion;
 @end
 
 
@@ -163,7 +177,7 @@
  *
  *  @return 封装好的 barButtonItem
  */
-+ (UIBarButtonItem *)barButtonWithImageName:(NSString *)imgName highlightedName:(NSString *)highlightedImgName target:(id)target action:(SEL)selector;
++ (UIBarButtonItem * _Nonnull )barButtonWithImageName:(NSString * _Nonnull )imgName highlightedName:(NSString * _Nullable )highlightedImgName target:(id _Nonnull)target action:(SEL _Nonnull)selector;
 /**
  *  返回一个封装按钮到 bar 按钮的 bar 按钮
  *
@@ -174,7 +188,7 @@
  *  @param title              标题
  *  @return 带标题,图片, 高亮图片的 barButtonItem
  */
-+ (UIBarButtonItem *)barButtonWithImageName:(NSString *)imgName highlightedName:(NSString *)highlightedImgName title:(NSString *)title target:(id)target action:(SEL)selector;
++ (UIBarButtonItem * _Nonnull )barButtonWithImageName:(NSString * _Nullable )imgName highlightedName:(NSString * _Nullable )highlightedImgName title:(NSString * _Nullable )title target:(id _Nullable)target action:(SEL _Nullable)selector;
 @end
 
 
@@ -190,7 +204,7 @@
  *
  *  @return 设定好的字典
  */
-+ (NSMutableDictionary *)attributeWithColor:(UIColor *)color font:(UIFont *)font shadowOffset:(UIOffset)offset;
++ (NSMutableDictionary * _Nonnull )attributeWithColor:(UIColor * _Nonnull )color font:(UIFont * _Nonnull )font shadowOffset:(UIOffset)offset;
 @end
 
 
@@ -208,7 +222,7 @@
  *
  *  @return picker
  */
-+ (UIImagePickerController *)imagePickerWithType:(UIImagePickerControllerSourceType)sourceType delegate:(id<UINavigationControllerDelegate, UIImagePickerControllerDelegate>)delegate;
++ (UIImagePickerController * _Nonnull )imagePickerWithType:(UIImagePickerControllerSourceType)sourceType delegate:(id<UINavigationControllerDelegate, UIImagePickerControllerDelegate>)delegate;
 @end
 
 
@@ -231,12 +245,12 @@
 /**
  *  返回一个只有年月日的时间
  */
-- (NSDate *)dateWithYMD;
+- (NSDate * _Nonnull )dateWithYMD;
 
 /**
  *  获得与当前时间的差距
  */
-- (NSDateComponents *)deltaWithNow;
+- (NSDateComponents * _Nonnull )deltaWithNow;
 @end
 
 
@@ -274,14 +288,14 @@
  *
  *  @return 设置好的按钮
  */
-+ (UIButton *)buttonWithTitle:(NSString *)title Image:(UIImage *)image HighlightImage:(UIImage *)highlightImage Target:(id)target action:(SEL)action btnType:(int)buttonType;
++ (instancetype _Nonnull )buttonWithTitle:(NSString * _Nullable )title Image:(UIImage * _Nullable )image HighlightImage:(UIImage * _Nullable )highlightImage Target:(id _Nullable)target action:(SEL _Nullable)action btnType:(int)buttonType;
 /**
  *  快速设置 Normal 和 highlight 状态下的图片
  *
  *  @param image   Normal 图片
  *  @param hlImage Highlight 图片
  */
-- (void)setImage:(UIImage *)image highlightImage:(UIImage *)hlImage;
+- (void)setImage:(UIImage * _Nonnull )image highlightImage:(UIImage * _Nonnull )hlImage;
 /**
  *  设置某个状态的图片和高亮图片
  *
@@ -289,7 +303,7 @@
  *  @param hlImage Highlight 图片
  *  @param state   状态
  */
-- (void)setImage:(UIImage *)image highlightImage:(UIImage *)hlImage forState:(UIControlState)state;
+- (void)setImage:(UIImage * _Nullable )image highlightImage:(UIImage * _Nonnull )hlImage forState:(UIControlState)state;
 
 /**
  *  设置某个状态的背景图片和背景高亮图片
@@ -298,7 +312,7 @@
  *  @param hlImage Highlight 图片
  *  @param state   状态
  */
-- (void)setBackgroundImage:(UIImage *)image highlightImage:(UIImage *)hlImage forState:(UIControlState)state;
+- (void)setBackgroundImage:(UIImage * _Nonnull )image highlightImage:(UIImage * _Nonnull )hlImage forState:(UIControlState)state;
 
 @property (nonatomic, strong) UIImage *normalImage;
 @property (nonatomic, strong) UIImage *backgroundNormalImage;
@@ -310,4 +324,19 @@
 @property (nonatomic, strong) UIColor *normalTitleColor;
 @property (nonatomic, strong) UIColor *selectedTitleColor;
 @property (nonatomic, strong) UIColor *highlightTitleColor;
+@end
+
+
+#pragma mark- NSError
+//  ********************   NSError   ******************************   //
+
+@interface NSError (YCTool)
+/**
+ *  快速创建一个空 info 的 error
+ *
+ *  @param errorString 错误信息
+ *
+ *  @return error
+ */
++ ( NSError * _Nonnull )errorMessage:(NSString * _Nonnull)errorString;
 @end

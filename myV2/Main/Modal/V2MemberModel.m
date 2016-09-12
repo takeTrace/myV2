@@ -9,5 +9,12 @@
 #import "V2MemberModel.h"
 
 @implementation V2MemberModel
-
+- (void)setAvatar_normal:(NSString *)avatar_normal
+{
+    if (![avatar_normal hasPrefix:@"htt"]) {
+        avatar_normal = [@"https:" stringByAppendingString:avatar_normal];
+    }
+    
+    _avatar_normal = avatar_normal;
+}
 @end

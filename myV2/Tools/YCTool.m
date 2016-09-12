@@ -8,8 +8,8 @@
 
 #define YCMargen 10
 #import "YCGloble.h"
-
 #import "YCTool.h"
+#import <Accelerate/Accelerate.h>
 
 @implementation YCTool
 
@@ -114,7 +114,63 @@
 #pragma mark- UIImage 系列
 
 @implementation UIImage (YCTool)
-
+#pragma mark- 生成玻璃效果
+/**
+ *
+ 使用实例:
+ UIImageView  *imageView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 300, SCREENWIDTH, 100)];
+ imageView.contentMode=UIViewContentModeScaleAspectFill;
+ imageView.image=[UIImage boxblurImage:image withBlurNumber:0.5];
+ imageView.clipsToBounds=YES;
+ [self.view addSubview:imageView];
+ *
+ *  @param image 传入图片
+ *  @param blur  透明效果
+ *
+ *  @return 完成图片
+ */
++(UIImage *)boxblurImage:(UIImage *)image withBlurNumber:(CGFloat)blur
+{
+    if (blur < 0.f || blur > 1.f) {
+        blur = 0.5f;
+    }
+    int boxSize = (int)(blur * 40);
+    boxSize = boxSize - (boxSize % 2) + 1;
+    CGImageRef img = image.CGImage;
+    vImage_Buffer inBuffer, outBuffer;
+    vImage_Error error;
+    void *pixelBuffer;
+    //从CGImage中获取数据
+    CGDataProviderRef inProvider = CGImageGetDataProvider(img);
+    CFDataRef inBitmapData = CGDataProviderCopyData(inProvider);
+    //设置从CGImage获取对象的属性
+    inBuffer.width = CGImageGetWidth(img);
+    inBuffer.height = CGImageGetHeight(img);
+    inBuffer.rowBytes = CGImageGetBytesPerRow(img);
+    inBuffer.data = (void*)CFDataGetBytePtr(inBitmapData);
+    pixelBuffer = malloc(CGImageGetBytesPerRow(img) * CGImageGetHeight(img));
+    if(pixelBuffer == NULL)
+        NSLog(@"No pixelbuffer");
+    outBuffer.data = pixelBuffer;
+    outBuffer.width = CGImageGetWidth(img);
+    outBuffer.height = CGImageGetHeight(img);
+    outBuffer.rowBytes = CGImageGetBytesPerRow(img);
+    error = vImageBoxConvolve_ARGB8888(&inBuffer, &outBuffer, NULL, 0, 0, boxSize, boxSize, NULL, kvImageEdgeExtend);
+    if (error) {
+        NSLog(@"error from convolution %ld", error);
+    }
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    CGContextRef ctx = CGBitmapContextCreate( outBuffer.data, outBuffer.width, outBuffer.height, 8, outBuffer.rowBytes, colorSpace, kCGImageAlphaNoneSkipLast);
+    CGImageRef imageRef = CGBitmapContextCreateImage (ctx);
+    UIImage *returnImage = [UIImage imageWithCGImage:imageRef];
+    //clean up CGContextRelease(ctx);
+    CGColorSpaceRelease(colorSpace);
+    free(pixelBuffer);
+    CFRelease(inBitmapData);
+    CGColorSpaceRelease(colorSpace);
+    CGImageRelease(imageRef);
+    return returnImage;
+}
 
 #pragma mark- 生成图片
 /**  给一个 url 的字符串, 返回这个 URL 的图片  */
@@ -186,6 +242,7 @@
     
     return UIGraphicsGetImageFromCurrentImageContext();
 }
+
 
 
 #pragma mark-重新设定尺寸
@@ -701,7 +758,7 @@
  *
  *  @return 设置好的按钮
  */
-+ (UIButton *)buttonWithTitle:(NSString *)title Image:(UIImage *)image HighlightImage:(UIImage *)highlightImage Target:(id)target action:(SEL)action btnType:(int)buttonType
++ (instancetype)buttonWithTitle:(NSString *)title Image:(UIImage * _Nullable)image HighlightImage:(UIImage * _Nullable)highlightImage Target:(id _Nullable)target action:(SEL _Nullable)action btnType:(int)buttonType
 {
     if (!target) target = target;
     if (!action) action = action;
@@ -795,4 +852,25 @@
 {
     [self setTitleColor:highlightTitleColor forState:UIControlStateHighlighted];
 }
+@end
+
+
+
+#pragma mark- NSError
+//  ********************   NSError   ******************************   //
+
+@implementation NSError (YCTool)
+
+/**
+ *  快速创建一个空 info 的 error
+ *
+ *  @param errorString 错误信息
+ *
+ *  @return error
+ */
++ ( NSError * _Nonnull )errorMessage:(NSString * _Nonnull)errorString
+{
+    return [NSError errorWithDomain:errorString code:0 userInfo:nil];
+}
+
 @end

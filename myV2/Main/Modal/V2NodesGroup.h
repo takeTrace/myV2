@@ -10,5 +10,5 @@
 @class V2NodeModel;
 @interface V2NodesGroup : NSObject
 @property (nonatomic, copy) NSString *groupTitle;
-@property (nonatomic, strong) NSArray<V2NodeModel *> *nodes;
+@property (nonatomic, strong) NSMutableArray<V2NodeModel *> *nodes;
 @end

@@ -35,16 +35,16 @@
 @property (nonatomic, copy) NSString *created;
 /**
  *   节点地址     */
-@property (nonatomic, strong) NSURL *url;
+@property (nonatomic, copy) NSString *url;
 /**
  *   节点小图     */
-@property (nonatomic, strong) NSURL *avatar_mini;
+@property (nonatomic, copy) NSString *avatar_mini;
 /**
  *   节点普通图     */
-@property (nonatomic, strong) NSURL *avatar_normal;
+@property (nonatomic, copy) NSString *avatar_normal;
 /**
  *   节点大图     */
-@property (nonatomic, strong) NSURL *avatar_large;
+@property (nonatomic, copy) NSString *avatar_large;
 /**
  *   收藏数?     */
 @property (nonatomic, strong) NSNumber *stars;
