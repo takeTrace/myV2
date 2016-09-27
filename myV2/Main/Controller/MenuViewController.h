@@ -9,6 +9,15 @@
 #import <UIKit/UIKit.h>
 
 
+typedef NS_ENUM(NSUInteger, MenuButtonType) {
+    MenuButtonTypeTpoic,
+    MenuButtonTypeNodes,
+    MenuButtonTypeSettings,
+    MenuButtonTypeRecent,
+    
+};
+
+
 /**
  *   通知     */
 #define MenuViewDidSelectMenuNotifacation @"MenuViewDidSelectMenuNotifacation"
@@ -16,7 +25,7 @@
 #define MenuViewDidSelectInfoBtnNotification @"MenuViewDidSelectInfoBtnNotification"
 #define MenuViewSelectedInfoBtnUserInfoKey @"MenuViewSelectedInfoBtnUserInfoKey"
 
-
+@class MMDrawerController;
 @interface MenuViewController : UIViewController
-
+@property (nonatomic, weak) MMDrawerController *drawer;
 @end

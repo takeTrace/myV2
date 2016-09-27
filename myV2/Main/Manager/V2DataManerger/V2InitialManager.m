@@ -15,18 +15,29 @@
 #import "YCTool.h"
 #import <MMDrawerController+Subclass.h>
 #import <MMDrawerVisualState.h>
+#import "V2DrawerManager.h"
 
 @implementation V2InitialManager
 
 + (void)initializeRootViewControllerSuccess:(void (^)(__kindof V2DrawerController *))success failure:(void (^)(NSError *))failure
 {
+    YCLog(@"%@", YCDocumentPath);
+    
     CenterViewController *centr = [[CenterViewController alloc] initWithStyle:UITableViewStylePlain];
     MenuViewController *menu = [[MenuViewController alloc] init];
     TabsViewController *tabs = [[TabsViewController alloc] initWithStyle:UITableViewStylePlain];
     
     V2DrawerController *drawer = [V2DrawerController drawerControllerWithCenterVC:centr leftVC:menu rightVC:tabs];
     
+    
     MMDrawerController *dc = (MMDrawerController *)drawer;
+    V2DrawerManager *mgr = [[V2DrawerManager alloc] init];
+    mgr.drawer = dc;
+    
+    centr.drawer = dc;
+    menu.drawer = dc;
+    tabs.drawer = dc;
+    
     dc.showsShadow = YES;
     dc.maximumLeftDrawerWidth = 200;
     dc.maximumRightDrawerWidth = 120;

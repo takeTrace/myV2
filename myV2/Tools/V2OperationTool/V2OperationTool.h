@@ -36,6 +36,7 @@ typedef NS_ENUM(NSUInteger, V2DataType) {
 + (AFHTTPRequestOperation *)GET:(NSString *)URLString
                        dataType:(V2DataType)type
                      parameters:(id)parameters
+                            tag:(id)tag
                         success:(void (^)(id responseObject))success
                         failure:(void (^)(NSError *error))failure;
 
@@ -52,6 +53,15 @@ typedef NS_ENUM(NSUInteger, V2DataType) {
 + (AFHTTPRequestOperation *)POST:(NSString *)URLString
                         dataType:(V2DataType)type
                       parameters:(id)parameters
+                    otherSeeting:(NSDictionary *)dict 
                          success:(void (^)(id responseObject))success
                          failure:(void (^)(NSError *error))failure;
+
+
+/**
+ *   取消当前发送队列中的请求(未发送的)     */
++ (void)cancelAllOperations;
+
++ (BOOL)isJsonResponseSerializer;
++ (BOOL)isHttpResponseSerializer;
 @end

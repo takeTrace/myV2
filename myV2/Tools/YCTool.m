@@ -812,6 +812,17 @@
     [self setBackgroundImage:hlImage forState:UIControlStateHighlighted];
 }
 
+/**
+ *  添加 touchUpInside 点击监听
+ *
+ *  @param target 监听对象
+ *  @param action 监听方法
+ */
+- (void)addTapTarget:(id)target action:(SEL)action
+{
+    [self addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
+}
+
 - (void)setNormalImage:(UIImage *)normalImage
 {
     [self setImage:normalImage forState:UIControlStateNormal];

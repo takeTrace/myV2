@@ -8,9 +8,28 @@
 
 #import "V2TopicModel.h"
 #import <MJExtension.h>
+#import <NSDate+TimeAgo.h>
 @implementation V2TopicModel
 + (NSDictionary *)mj_replacedKeyFromPropertyName
 {
     return @{ @"ID" : @"id"};
+}
+
+- (void)setCreated:(NSString *)created
+{
+    if ([created rangeOfString:@"回复"].length > 0) {
+        _created = created;
+        return;
+    } else if ([created rangeOfString:@"字符"].length > 0)
+    {
+        return;
+    } else if (!created)
+    {
+        return;
+    }
+    
+    
+    _created = [NSDate dateWithTimeIntervalSince1970:created.doubleValue].timeAgo;
+    
 }
 @end

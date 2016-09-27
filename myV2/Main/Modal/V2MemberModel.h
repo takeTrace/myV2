@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import <MJExtension.h>
 @interface V2MemberModel : NSObject
 /**
  *   成员 id     */

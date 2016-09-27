@@ -13,8 +13,11 @@
 @implementation V2TabModel
 - (void)setUrlStr:(NSString *)urlStr
 {
-    if (!urlStr) return;
-    
-    _urlStr = [V2Domian stringByAppendingString:urlStr];
+
+    if ([urlStr rangeOfString:@"www.v2ex"].length > 0) {
+        _urlStr = urlStr;
+    } else {
+        _urlStr = [V2Domian stringByAppendingString:urlStr];
+    }
 }
 @end

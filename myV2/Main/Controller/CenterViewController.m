@@ -17,8 +17,19 @@
 #import "YCTool.h"
 #import "TopicDetailViewController.h"
 #import "V2BaseNavController.h"
+#import "NodesNavController.h"
+#import <MMDrawerController.h>
+#import "V2DataManager.h"
+#import <MJRefresh.h>
+#import "V2SettingViewController.h"
+#import "V2DrawerManager.h"
+#import "V2LoginController.h"
+#import "V2MemberInfoController.h"
+
 
 @interface CenterViewController ()
+@property (nonatomic, strong ) V2TabModel *currentTab;
+@property (nonatomic, strong) V2NodeModel *currentNode;
 
 @end
 
@@ -58,6 +69,9 @@
 //    self.tableView.backgroundView =[[UIImageView alloc] initWithImage:clearImage];
     
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:nil];
 
     
 }
@@ -66,9 +80,20 @@
  *    监听通知     */
 - (void)observingNotification
 {
-    
+    /**
+     *   监听菜单点击通知     */
     YCAddObserver(menuDidClickNotification:, MenuViewDidSelectMenuNotifacation);
     YCAddObserver(menuViewDidClickUserInfoNotification:, MenuViewDidSelectInfoBtnNotification);
+    
+    /**
+     *   监听 tab 点击通知     */
+    YCAddObserver(tabViewDidClickTabNotification:, TabViewDidSelectTabNotifacation);
+    
+    /**
+     *   监听nodeNav 按钮点击     */
+    YCAddObserver(nodeNavBtnDidClick:, NodeBtnDidClickNotification);
+    
+    
 }
 
 - (void)dealloc
@@ -77,18 +102,121 @@
 }
 
 /**
+ *   nodeNav节点按钮被点击     */
+- (void)nodeNavBtnDidClick:(NSNotification *)note
+{
+    V2NodeModel *node = (V2NodeModel *)note.userInfo[NodeBtnClickWithNodeKey];
+    self.title = node.title;
+    self.currentNode = node;
+    typeof(self) weakSelf = self;
+    self.tableView.mj_header.refreshingBlock = ^{
+        [V2DataManager updateTopicsWithNode:weakSelf.currentNode page:nil success:^(NSArray<V2TopicModel *> *topics) {
+            weakSelf.topics = topics;
+            [weakSelf.tableView reloadData];
+            [weakSelf.tableView.mj_header endRefreshing];
+        } failure:^(NSError *error) {
+            YCLog(@"更新'%@'节点话题失败 %@", node, error);
+            [weakSelf.tableView.mj_header endRefreshing];
+        }];
+    };
+    [V2DataManager getTopicsWithNode:node success:^(NSArray<V2TopicModel *> *topics) {
+        weakSelf.topics = topics;
+        [weakSelf.tableView reloadData];
+    } failure:^(NSError *error) {
+        YCLog(@"获取节点 topics 失败, error: %@", error);
+    }];
+    
+    [self.navigationController popViewControllerAnimated:YES];
+    
+    
+}
+
+/**
+ *   tab栏点击了按钮    */
+- (void)tabViewDidClickTabNotification:(NSNotification *)note
+{
+    V2TabModel *tab = (V2TabModel *)note.userInfo[TabViewSelectedTabTypeUserinfoKey];
+    YCLog(@"点击了 tab: %@", tab);
+    self.currentTab = tab;
+    
+    [[V2DrawerManager sharedrawerManager] closeDrawerAnimated:YES completion:nil];
+    typeof(self) weakSelf = self;
+    self.tableView.mj_header.refreshingBlock = ^{
+        [V2DataManager updateTopicsWithTab:weakSelf.currentTab success:^(NSArray<V2TopicModel *> *topics) {
+            weakSelf.topics = topics;
+            [weakSelf.tableView reloadData];
+            
+            [weakSelf.tableView.mj_header endRefreshing];
+        } failure:^(NSError *error) {
+            YCLog(@"更新'%@'tab 失败-- error: %@", weakSelf.currentTab.name , error  );
+            [weakSelf.tableView.mj_header endRefreshing];
+        }];
+    };
+    [V2DataManager getTopicsWithTab:tab success:^(NSArray<V2TopicModel *> *topics) {
+        weakSelf.topics = topics;
+        weakSelf.title = tab.name;
+        [weakSelf.tableView reloadData];
+        
+    } failure:^(NSError *error) {
+        YCLog(@"获取'%@'的数据失败--error: %@", tab.name , error);
+    }];
+    
+    
+}
+
+/**
  *   菜单栏中用户头像点击通知监听     */
 - (void)menuViewDidClickUserInfoNotification:(NSNotification *)note
 {
     YCLog(@"用户需要登录或者查看用户信息");
+    [[V2DrawerManager sharedrawerManager] closeDrawerAnimated:YES completion:nil];
+    
+    UIViewController *openVC = nil;
+    V2MemberModel *user = [V2DataManager getLoginUser];
+    if (user) {
+        /**
+         *    打开用户信息页面     */
+        openVC = [[V2MemberInfoController alloc] init];
+        
+    } else
+    {
+         openVC = [[V2LoginController alloc] init];
+    }
+    [self presentViewController:openVC animated:YES completion:^{
+        YCLog(@"弹出登录视图");
+    }];
 }
 
 /**
  *   菜单点击方法     */
 - (void)menuDidClickNotification:(NSNotification *)note
 {
-    YCLog(@"%@", note.userInfo[MenuViewSelectedMenuTypeUserinfoKey]);
+    [[V2DrawerManager sharedrawerManager] closeDrawerAnimated:YES completion:nil];
+    MenuButtonType menuType = [(NSNumber *)note.userInfo[MenuViewSelectedMenuTypeUserinfoKey] intValue];
+
+    switch (menuType) {
+        case MenuButtonTypeNodes:
+            YCLog(@"点击节点按钮");
+            [self pushController:[NodesNavController class]];
+            break;
+        case MenuButtonTypeRecent:
+            YCLog(@"点击了最近最新");
+            break;
+        case MenuButtonTypeSettings:
+            YCLog(@"点击了设置");
+            [self pushController:[V2SettingViewController class]];
+            break;
+        case MenuButtonTypeTpoic:
+            YCLog(@"点击了分类");
+            [self.navigationController popToRootViewControllerAnimated:YES];
+            YCSendNotification(TabViewDidSelectTabNotifacation, @{TabViewSelectedTabTypeUserinfoKey : self.currentTab});
+            break;
+            
+        default:
+            break;
+    }
 }
+
 /**
  *   配置导航栏     */
 - (void)configNavigationBar
@@ -116,7 +244,15 @@
     
 }
 
-
+#pragma mark- 跳转控制器
+- (void)pushController:(Class)aclass
+{
+    UIViewController *currentVc = [self.navigationController topViewController];
+    if ([currentVc isKindOfClass:aclass]) return;
+    
+    UIViewController *vc = [[aclass alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
+}
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation

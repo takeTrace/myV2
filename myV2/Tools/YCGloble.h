@@ -110,7 +110,7 @@ typedef void (^voidBlock)(void);
 
 /**
  *   document文件   */
-#define kUserUserDefaults [NSUserDefaults standardUserDefaults]
+#define YCUserDefaults [NSUserDefaults standardUserDefaults]
 
 
 //  判断 iOS 版本 ````````````````````````````````````````````````

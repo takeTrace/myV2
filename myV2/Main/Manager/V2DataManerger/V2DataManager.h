@@ -12,6 +12,7 @@
 #import "V2TopicModel.h"
 #import "V2MemberModel.h"
 #import "V2ReplyModel.h"
+#import "V2MemberReplyModel.h"
 #import "V2TabModel.h"
 #import "V2NodesGroup.h"
 
@@ -22,12 +23,17 @@
 #pragma mark- html 解析的数据 
 /**
  *   对应标签 tab 的话题     */
-+ (void)getTopicsWithTab:(NSString *)tab success:(void (^)(NSArray<V2TopicModel *> *topics))success failure:(void (^)(NSError *error))failure;
++ (void)getTopicsWithTab:(V2TabModel *)tab success:(void (^)(NSArray<V2TopicModel *> *topics))success failure:(void (^)(NSError *error))failure;
+/**
+ *   更新 Tab 下的 topic     */
++ (void)updateTopicsWithTab:(V2TabModel *)tab success:(void (^)(NSArray<V2TopicModel *> *topics))success failure:(void (^)(NSError *error))failure;
 
 /**
  *   获取某个节点的话题     */
-+ (void)getTopicsWithNode:(V2NodeModel *)node page:(NSNumber *)page success:(void (^)(NSArray<V2TopicModel *> *topics))success failure:(void (^)(NSError *error))failure;
-
++ (void)getTopicsWithNode:(V2NodeModel *)node success:(void (^)(NSArray<V2TopicModel *> *topics))success failure:(void (^)(NSError *error))failure;
+/**
+ *   更新某个节点话题(from解析 html)     */
++ (void)updateTopicsWithNode:(V2NodeModel *)node page:(NSNumber *)page success:(void (^)(NSArray<V2TopicModel *> *topics))success failure:(void (^)(NSError *error))failure;
 /**
  *   解析 html 的话题和回复     */
 + (void)getTopicAndRepliesFromHtmlWithTopic:(V2TopicModel *)topic success:(void (^)(V2TopicModel *topic, NSArray<V2ReplyModel *> *replies))success failure:(void (^)(NSError *error))failure;
@@ -35,6 +41,9 @@
 /**
  *   获取更多话题     */
 + (void)getMoreTpoics:(V2TabModel *)tab page:(NSNumber *)page success:(void (^)(NSArray<V2TopicModel *> *topics))success failure:(void (^)(NSError *error))failure;
+/**
+ *   更新更多话题     */
++ (void)updateMoreTopicsWithPage:(NSNumber *)page success:(void (^)(NSArray<V2TopicModel *> *topics))success failure:(void (^)(NSError *error))failure;
 
 /**
  *   获取 tabs     */
@@ -51,6 +60,23 @@
 /**
  *   更新节点导航     */
 + (void)updateNodesNavigateGroupsGroupsSuccess:(void (^)(NSArray<V2NodesGroup *> *siteInfo))success failure:(void (^)(NSError *error))failure;
+
+#pragma mark- 获取用户主题和回复
+/**
+ *    获取用户发表主题     */
++ (void)getMemberTopics:(V2MemberModel *)member page:(NSNumber *)page success:(void (^)(NSArray<V2TopicModel *> *topics))success failure:(void (^)(NSError *error))failure;
+
+/**
+ *   更新用户发表主题     */
++ (void)updateMemberTopics:(V2MemberModel *)member page:(NSNumber *)page success:(void (^)(NSArray<V2TopicModel *> *topics))success failure:(void (^)(NSError *error))failure;
+
+/**
+ *    获取用户发表的回复     */
++ (void)getMemberReplies:(V2MemberModel *)member page:(NSNumber *)page success:(void (^)(NSArray<V2MemberReplyModel *> *replies))success failure:(void (^)(NSError *error))failure;
+
+/**
+ *   更新用户发表的回复    */
++ (void)updateMemberReplies:(V2MemberModel *)member page:(NSNumber *)page success:(void (^)(NSArray<V2MemberReplyModel *> *replies))success failure:(void (^)(NSError *error))failure;
 
 
 
@@ -113,5 +139,50 @@
 
 
 
+#pragma mark- tabViewController的 data
+
+/**
+ *   获取当前/存档的选中的 tab     */
++ (int)getSelectedIndexInTabViewTable;
+
+/**
+ *   设置当前选中的 tab     */
++ (void)setSelectedIndexInTabViewTable:(int)index;
+
+
+
+#pragma mark-  登录
+/**
+ *  登录操作,
+ *
+ *  @param userName 用户名
+ *  @param password 密码
+ */
++ (void)loginWithUserName:(NSString *)userName password:(NSString *)password success:(void (^)(V2MemberModel *user))success failure:(void (^)(NSError *error))failure;
+
+
+
+#pragma mark- 获取登录数据
+
+
+/**
+ *   保存登录用户     */
++ (void)loginUser:(V2MemberModel *)user;
+
+/**
+ *   用户登出     */
++ (BOOL)usersignout;
+
+/**
+ *   获取登录的用户     */
++ (V2MemberModel *)getLoginUser;
+
+/**
+ *   获取是否登录中的状态     */
++ (NSString *)getLoginUserName;
+
+/**
+ *   保存登录用户名     */
++ (void)saveLogin:(V2MemberModel *)loginUser;
 
 @end

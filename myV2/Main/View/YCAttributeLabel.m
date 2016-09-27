@@ -254,7 +254,7 @@
 
 - (void)setPreferWidth:(CGFloat)preferWidth
 {
-    _preferWidth = preferWidth;
+    _preferWidth = preferWidth-10; // 因为没有 inset 了, 所以显示文字区域宽度小了, 这里也要跟着小
     
     CGRect rec = self.frame;
     rec.size.width = preferWidth;
@@ -270,7 +270,7 @@
     CGSize size = [self.textLabel sizeThatFits:CGSizeMake(width, MAXFLOAT)];
     NSLog(@"systemLayoutSize: %@", NSStringFromCGSize(size));
     
-    return size.height+10;
+    return size.height+20;
     
 }
 

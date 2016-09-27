@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+/**
+ *   通知     */
+#define TabViewDidSelectTabNotifacation @"TabViewDidSelectTabNotifacation"
+#define TabViewSelectedTabTypeUserinfoKey @"TabViewSelectedTabTypeUserinfoKey"
+//#define TabViewDidSelectInfoBtnNotification @"TabViewDidSelectInfoBtnNotification"
+//#define TabViewSelectedInfoBtnUserInfoKey @"TabViewSelectedInfoBtnUserInfoKey"
+@class MMDrawerController;
 @interface TabsViewController : UITableViewController
-
+@property (nonatomic, weak) MMDrawerController *drawer;
 @end

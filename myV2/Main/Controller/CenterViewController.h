@@ -7,7 +7,7 @@
 //
 
 #import "V2BaseTableViewController.h"
-
+@class MMDrawerController;
 @interface CenterViewController : V2BaseTableViewController
-
+@property (nonatomic, weak) MMDrawerController *drawer;
 @end

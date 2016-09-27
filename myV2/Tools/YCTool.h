@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "YCGloble.h"
 
 @interface YCTool : NSObject
 
@@ -314,6 +315,13 @@
  */
 - (void)setBackgroundImage:(UIImage * _Nonnull )image highlightImage:(UIImage * _Nonnull )hlImage forState:(UIControlState)state;
 
+/**
+ *  添加 touchUpInside 点击监听
+ *
+ *  @param target 监听对象
+ *  @param action 监听方法
+ */
+- (void)addTapTarget:(id)target action:(SEL)action;
 @property (nonatomic, strong) UIImage *normalImage;
 @property (nonatomic, strong) UIImage *backgroundNormalImage;
 @property (nonatomic, strong) UIImage *highlightImage;

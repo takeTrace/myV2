@@ -47,7 +47,7 @@
         ReplyCell *cell = [ReplyCell cell];
         [replies enumerateObjectsUsingBlock:^(V2ReplyModel * _Nonnull reply, NSUInteger idx, BOOL * _Nonnull stop) {
             cell.reply = reply;
-            reply.heightInCell = [cell heightForCellWithWidth:[UIScreen mainScreen].bounds.size.width];
+            reply.heightInCell = [cell heightForCellWithWidth:YCScreenW];
         }];
     }
 }
@@ -62,8 +62,13 @@
 //    self.DetailLabel.backgroundColor = [UIColor clearColor];
     self.DetailLabel.separatorStyle = UITableViewCellSeparatorStyleNone;
     
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
     
-    
+    [self setupheaderView];
 }
 
 - (void)setupheaderView

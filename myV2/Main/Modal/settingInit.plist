@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>title</key>
+		<string>夜间模式</string>
+		<key>desc</key>
+		<string>点击切换夜间模式</string>
+		<key>cellType</key>
+		<integer>1</integer>
+		<key>state</key>
+		<string>额外</string>
+		<key>isOn</key>
+		<false/>
+	</dict>
+	<dict>
+		<key>title</key>
+		<string>需要登录?</string>
+		<key>desc</key>
+		<string>登录状态时打勾</string>
+		<key>cellType</key>
+		<integer>2</integer>
+		<key>state</key>
+		<string>额外</string>
+		<key>isOn</key>
+		<false/>
+	</dict>
+	<dict>
+		<key>title</key>
+		<string>labelCell</string>
+		<key>desc</key>
+		<string>右边显示需要提醒 的消息</string>
+		<key>cellType</key>
+		<integer>3</integer>
+		<key>state</key>
+		<string>额外</string>
+		<key>isOn</key>
+		<false/>
+	</dict>
+	<dict>
+		<key>title</key>
+		<string>什么都没有</string>
+		<key>desc</key>
+		<string>诶, 这里不懂设置什么</string>
+		<key>cellType</key>
+		<integer>0</integer>
+		<key>state</key>
+		<string>额外</string>
+		<key>isOn</key>
+		<false/>
+	</dict>
+	<dict>
+		<key>title</key>
+		<string>清楚缓存</string>
+		<key>desc</key>
+		<string>当前缓存...</string>
+		<key>cellType</key>
+		<integer>4</integer>
+		<key>state</key>
+		<string>额外</string>
+		<key>isOn</key>
+		<false/>
+	</dict>
+</array>
+</plist>

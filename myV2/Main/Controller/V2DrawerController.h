@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class MMDrawerController;
 @interface V2DrawerController : UIViewController
 
 /**
@@ -28,5 +28,10 @@
 /**
  *   只有右菜单的抽屉     */
 + (__kindof UIViewController *)drawerControllerCenterViewController:(UIViewController *)centerViewController rightDrawerViewController:(UIViewController *)rightDrawerViewController;
+
+- (void)configBase;
++ (void)closeDrawer;
+
+- (MMDrawerController *)drawer;
 
 @end

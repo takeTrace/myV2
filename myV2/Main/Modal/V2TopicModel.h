@@ -42,4 +42,18 @@
 /**
  *   11.最后查看时间     */
 @property (nonatomic, copy) NSString *last_touched;
+
+/**
+ *    额外标记     */
+@property (nonatomic, copy) NSString *tab;
+@property (nonatomic, copy) NSString *hotest;
+@property (nonatomic, copy) NSString *latest;
+
+/**
+ *    在本地的更新时间     */
+@property (nonatomic, copy) NSString *getTime;
+/**
+ *   用户标识时间戳, 当获取用户话题的时候打上     */
+@property (nonatomic, copy) NSString *userTopicGetTime;
+
 @end

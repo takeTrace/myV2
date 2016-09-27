@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+#define NodeBtnDidClickNotification @"NodeBtnDidClickNotification"
+#define NodeBtnClickWithNodeKey @"NodeBtnClickWithNodeKey"
+
+
 @interface V2NodeModel : NSObject
 /**
  *   节点名称     */
@@ -48,5 +52,7 @@
 /**
  *   收藏数?     */
 @property (nonatomic, strong) NSNumber *stars;
+
+
 
 @end

@@ -105,7 +105,7 @@
     self.contentLabel.attributedString = [[NSAttributedString alloc] initWithData:[reply.content_rendered dataUsingEncoding:NSUnicodeStringEncoding] options:@{NSDocumentTypeDocumentAttribute : NSHTMLTextDocumentType} documentAttributes:nil error:nil];
     self.userNameLabe.text = _reply.member.username;
 //    self.nodeLabel.text = _reply.node.title;
-    self.timeLabel.text = @"123123131123231";
+    self.timeLabel.text = _reply.created;
 }
 
 - (CGFloat)heightForCellWithWidth:(CGFloat )width

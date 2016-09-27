@@ -14,9 +14,15 @@
 #import "V2ReplyModel.h"
 #import "V2TabModel.h"
 #import "V2NodesGroup.h"
+#import "V2MemberReplyModel.h"
 
 
 @interface V2HtmlParser : NSObject
+
+
+/**
+ *    获取node 下的话题     */
++ (void)parseTopicsWithDocument:(NSData *)docData fromNode:(V2NodeModel *)fromNode Success:(void (^)(NSArray<V2TopicModel *> *topics))success failure:(void (^)(NSError *error))failure;
 
 /**
  *    获取话题     */
@@ -36,5 +42,26 @@
  *   获取节点导航     */
 + (void)parseNodesNavigateGroupsWithDocument:(NSData *)docData success:(void (^)(NSArray<V2NodesGroup *> *groups))success failure:(void (^)(NSError *error))failure;
 
+
+#pragma mark-  解析登录相关
+
+/**
+ *   获取登录参数     */
++ (void)parseLoginParaWithData:(id)data success:(void (^)(NSString *once, NSString *nameText, NSString *pwdText))success failure:(void (^)(NSError *error))failure;
+
+/**
+ *   获取登录成功的用户     */
++ (void)parseLoginUserWithData:(id)data success:(void (^)(NSString *user))success failure:(void (^)(NSError *error))failure;
+
+
+
+#pragma mark-  解析某 Member 的回复和主题
+/**
+ *   获取某用户的话题     */
++ (void)parseTopicsWithDocument:(NSData *)docData fromMember:(V2MemberModel *)member Success:(void (^)(NSArray<V2TopicModel *> *topics))success failure:(void (^)(NSError *error))failure;
+
+/**
+ *   获取某用户的回复     */
++ (void)parseRepliesWithDocument:(NSData *)docData fromMember:(V2MemberModel *)member Success:(void (^)(NSArray<V2MemberReplyModel *> *replies))success failure:(void (^)(NSError *error))failure;
 
 @end

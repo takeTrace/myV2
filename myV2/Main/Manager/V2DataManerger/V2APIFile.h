@@ -11,43 +11,43 @@
 
 #pragma mark- API
 
-#define V2Domain    @"https://www.v2ex.com"
-#define kTab @"tab"
+NSString * const V2Domain = @"https://www.v2ex.com";
+NSString * const kTab = @"tab";
 
-#define agetMoreTopic @"https://www.v2ex.com/recent"
-//#define agetHTopic&Replies @"https://www.v2ex.com/t"
+NSString * const agetMoreTopic = @"https://www.v2ex.com/recent";
+//NSString * const agetHTopic&Replies = @"https://www.v2ex.com/t";
 
 /**
  *   html解析数据的页码参数(recent和节点的数据才有页码参数     */
-#define kHPage @"p"
+NSString * const kHPage = @"p";
 
-#define agetSiteInfo @"https://www.v2ex.com/api/site/info.json"
-#define agetSiteState @"https://www.v2ex.com/api/site/stats.json"
-#define agetAllNodes @"https://www.v2ex.com/api/nodes/all.json"
-#define agetLatest @"https://www.v2ex.com/api/topics/latest.json"
-#define agetHotest @"https://www.v2ex.com/api/topics/hot.json"
+NSString * const agetSiteInfo = @"https://www.v2ex.com/api/site/info.json";
+NSString * const agetSiteState = @"https://www.v2ex.com/api/site/stats.json";
+NSString * const agetAllNodes = @"https://www.v2ex.com/api/nodes/all.json";
+NSString * const agetLatest = @"https://www.v2ex.com/api/topics/latest.json";
+NSString * const agetHotest = @"https://www.v2ex.com/api/topics/hot.json";
 
-#define agetNode @"https://www.v2ex.com/api/nodes/show.json"
-#define kNodeId @"id"
-#define kNodeName @"name"
+NSString * const agetNode = @"https://www.v2ex.com/api/nodes/show.json";
+NSString * const kNodeId = @"id";
+NSString * const kNodeName = @"name";
 
-#define agetTopic @"https://www.v2ex.com/api/topics/show.json"
-#define kTopicId @"id"
-#define kTopicUsername @"username"
-#define kTopicNodeId @"node_id"
-#define kTopicNodeName @"node_name"
+NSString * const agetTopic = @"https://www.v2ex.com/api/topics/show.json";
+NSString * const kTopicId = @"id";
+NSString * const kTopicUsername = @"username";
+NSString * const kTopicNodeId = @"node_id";
+NSString * const kTopicNodeName = @"node_name";
 
-#define agetReplaies @"https://www.v2ex.com/api/replies/show.json"
-#define kReplyTopicId @"topic_id"
-#define kPage @"page"
-#define kPageSize @"page_size"
+NSString * const agetReplaies = @"https://www.v2ex.com/api/replies/show.json";
+NSString * const kReplyTopicId = @"topic_id";
+NSString * const kPage = @"page";
+NSString * const kPageSize = @"page_size";
 
-#define agetMember @"https://www.v2ex.com/api/members/show.json"
-#define kMemberId @"id"
-#define kMemberName @"username"
+NSString * const agetMember = @"https://www.v2ex.com/api/members/show.json";
+NSString * const kMemberId = @"id";
+NSString * const kMemberName = @"username";
 
 
-
+NSString * const kLogin = @"https://www.v2ex.com/signin";
 
 
 #endif /* V2APIFile_h */

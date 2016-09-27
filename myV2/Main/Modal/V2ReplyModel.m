@@ -8,11 +8,21 @@
 
 #import "V2ReplyModel.h"
 #import <MJExtension.h>
+#import <NSDate+TimeAgo.h>
 @implementation V2ReplyModel
 
 + (NSDictionary *)mj_replacedKeyFromPropertyName
 {
     return @{ @"ID" : @"id" };
+}
+
+- (void)setCreated:(NSString *)created
+{
+    if ([created rangeOfString:@"前"].length > 0) {
+        _created = created;
+        return;
+    }
+    _created = [NSDate dateWithTimeIntervalSince1970:created.doubleValue].timeAgoSimple;
 }
 
 @end

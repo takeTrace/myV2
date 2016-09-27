@@ -21,23 +21,23 @@
 
 /**
  *   懒加载     */
-- (NSArray *)topics
-{
-    if (!_topics) {
-        
-        [V2DataManager getTopicsWithTab:nil success:^(NSArray<V2TopicModel *> *hotestTopics) {
-            
-            _topics = hotestTopics;
-            
-            [self.tableView reloadData];
-            
-        } failure:^(NSError *error) {
-            NSLog(@"%@", error);
-        }];
-        
-    }
-    return _topics;
-}
+//- (NSArray *)topics
+//{
+//    if (!_topics) {
+//        
+//        [V2DataManager getTopicsWithTab:nil success:^(NSArray<V2TopicModel *> *hotestTopics) {
+//            
+//            _topics = hotestTopics;
+//            
+//            [self.tableView reloadData];
+//            
+//        } failure:^(NSError *error) {
+//            NSLog(@"%@", error);
+//        }];
+//        
+//    }
+//    return _topics;
+//}
 
 
 //- (void)loadView

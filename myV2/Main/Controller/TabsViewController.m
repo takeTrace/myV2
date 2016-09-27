@@ -10,6 +10,9 @@
 #import "V2TabModel.h"
 #import "V2DataManager.h"
 #import "ILTranslucentView.h"
+#import "YCTool.h"
+
+
 
 @interface TabsViewController ()
 @property (nonatomic, strong) NSArray<V2TabModel *> *tabs;
@@ -18,15 +21,16 @@
 
 @implementation TabsViewController
 
-/**
- *   懒加载     */
+
 - (NSArray<V2TabModel *> *)tabs
 {
     if (!_tabs) {
         [V2DataManager getTabsSuccess:^(NSArray<V2TabModel *> *tabs) {
             _tabs = tabs;
-            
             [self.tableView reloadData];
+            /**
+             *   初始化选中, 因为异步返回数据, 如果放其他地方的话会有_tabs=nil 的现象     */
+            [self initSelect];
         } failure:^(NSError *error) {
             NSLog(@"error %@", error);
         } ];
@@ -34,6 +38,24 @@
     }
     return _tabs;
 }
+
+- (void)initSelect
+{
+    if ([V2DataManager getSelectedIndexInTabViewTable]) {
+        [self tableView:self.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:[V2DataManager getSelectedIndexInTabViewTable] inSection:0]];
+    } else
+    {
+        [self.tabs enumerateObjectsUsingBlock:^(V2TabModel * _Nonnull tab, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([tab.name isEqualToString:@"全部"]) {
+            [self tableView:self.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:idx inSection:0]];
+                
+                *stop = YES;
+            }
+        }];
+    }
+}
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -54,6 +76,8 @@
     
     
     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+    
+    
     
     
 }
@@ -88,7 +112,7 @@
     
     cell.textLabel.text = tab.name;
     cell.textLabel.textColor = [UIColor whiteColor];
-    cell.detailTextLabel.text = tab.urlStr;
+//    cell.detailTextLabel.text = tab.urlStr;
 //    cell.imageView.image = nil;
     
     cell.backgroundColor = [UIColor clearColor];
@@ -100,49 +124,17 @@
 
 }
 
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    [V2DataManager setSelectedIndexInTabViewTable:indexPath.row];
+    
+    V2TabModel *tab = self.tabs[indexPath.row];
+    /**
+     *   发送通知     */
+    YCSendNotification(TabViewDidSelectTabNotifacation, @{TabViewSelectedTabTypeUserinfoKey: tab});
+    
+    
 }
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 @end

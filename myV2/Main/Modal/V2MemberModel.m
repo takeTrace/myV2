@@ -17,4 +17,19 @@
     
     _avatar_normal = avatar_normal;
 }
+
+- (void)setUrl:(NSString *)url
+{
+    if ([url hasPrefix:@"http:"]) {
+        url = [url stringByReplacingOccurrencesOfString:@"http:" withString:@"https:"];
+    }
+    
+    _url = url;
+}
+
+
+/**
+ *   使这个类的对象能够归档, 加这句代码会自动添加这些 coding 和 decoding 代码
+ */
+MJCodingImplementation
 @end

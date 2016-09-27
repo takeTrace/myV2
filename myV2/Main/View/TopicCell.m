@@ -91,6 +91,6 @@
     self.userNameLabe.text = _topic.member.username;
     self.contentLabel.text = _topic.title;
     self.nodeLabel.text = _topic.node.title;
-    self.timeLabel.text = @"123123131123231";
+    self.timeLabel.text = _topic.created;
 }
 @end
