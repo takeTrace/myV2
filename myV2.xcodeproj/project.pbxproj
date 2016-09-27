@@ -27,6 +27,7 @@
 		041CA55D1D80FF20007F2915 /* TopicDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 041CA55B1D80FF20007F2915 /* TopicDetailViewController.xib */; };
 		0426027E1D7AAD7E001AD0A1 /* V2NodesGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 0426027D1D7AAD7E001AD0A1 /* V2NodesGroup.m */; };
 		042602811D7AC2A0001AD0A1 /* V2HtmlParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 042602801D7AC2A0001AD0A1 /* V2HtmlParser.m */; };
+		043C15C81D9A573100BB156E /* V2RecentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 043C15C71D9A573100BB156E /* V2RecentViewController.m */; };
 		045AC4E41D8557FC00575479 /* YCAttributeLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 045AC4E31D8557FC00575479 /* YCAttributeLabel.m */; };
 		045AC4E81D85581000575479 /* DetailHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 045AC4E61D85581000575479 /* DetailHeaderView.m */; };
 		045AC4E91D85581000575479 /* DetailHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 045AC4E71D85581000575479 /* DetailHeaderView.xib */; };
@@ -133,6 +134,8 @@
 		0426027D1D7AAD7E001AD0A1 /* V2NodesGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = V2NodesGroup.m; sourceTree = "<group>"; };
 		0426027F1D7AC2A0001AD0A1 /* V2HtmlParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = V2HtmlParser.h; sourceTree = "<group>"; };
 		042602801D7AC2A0001AD0A1 /* V2HtmlParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = V2HtmlParser.m; sourceTree = "<group>"; };
+		043C15C61D9A573100BB156E /* V2RecentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = V2RecentViewController.h; sourceTree = "<group>"; };
+		043C15C71D9A573100BB156E /* V2RecentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = V2RecentViewController.m; sourceTree = "<group>"; };
 		045AC4E21D8557FC00575479 /* YCAttributeLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCAttributeLabel.h; sourceTree = "<group>"; };
 		045AC4E31D8557FC00575479 /* YCAttributeLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCAttributeLabel.m; sourceTree = "<group>"; };
 		045AC4E51D85581000575479 /* DetailHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailHeaderView.h; sourceTree = "<group>"; };
@@ -362,6 +365,8 @@
 				047BDFD51D7D92470034B6DC /* V2DrawerController.m */,
 				047BDFD11D7D90CF0034B6DC /* CenterViewController.h */,
 				047BDFD21D7D90CF0034B6DC /* CenterViewController.m */,
+				043C15C61D9A573100BB156E /* V2RecentViewController.h */,
+				043C15C71D9A573100BB156E /* V2RecentViewController.m */,
 				041CA5591D80FF20007F2915 /* TopicDetailViewController.h */,
 				041CA55A1D80FF20007F2915 /* TopicDetailViewController.m */,
 				041CA55B1D80FF20007F2915 /* TopicDetailViewController.xib */,
@@ -877,6 +882,7 @@
 				04CBD2A01D7A4ADC005F9685 /* OCGumbo+Query.m in Sources */,
 				045DBC1C1D7FE77A00FADC12 /* TopicCell.m in Sources */,
 				04A4F9C91D9803D900470ED6 /* V2MemberRepliesTable.m in Sources */,
+				043C15C81D9A573100BB156E /* V2RecentViewController.m in Sources */,
 				04AFF2961D97832E008E5EC0 /* V2MemberReplyModel.m in Sources */,
 				045AC4E81D85581000575479 /* DetailHeaderView.m in Sources */,
 				045AC4ED1D86463700575479 /* ReplyCell.m in Sources */,

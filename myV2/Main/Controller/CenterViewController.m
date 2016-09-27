@@ -25,12 +25,13 @@
 #import "V2DrawerManager.h"
 #import "V2LoginController.h"
 #import "V2MemberInfoController.h"
+#import "V2RecentViewController.h"
 
 
 @interface CenterViewController ()
 @property (nonatomic, strong ) V2TabModel *currentTab;
 @property (nonatomic, strong) V2NodeModel *currentNode;
-
+@property (nonatomic, assign) BOOL isRecent;
 @end
 
 @implementation CenterViewController
@@ -71,7 +72,7 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     
-    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:nil];
+//    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:nil];
 
     
 }
@@ -200,6 +201,7 @@
             [self pushController:[NodesNavController class]];
             break;
         case MenuButtonTypeRecent:
+            [self pushController:[V2RecentViewController class]];
             YCLog(@"点击了最近最新");
             break;
         case MenuButtonTypeSettings:
@@ -215,6 +217,13 @@
         default:
             break;
     }
+}
+
+/**
+ *   查看 recent 主题     */
+- (void)broswerRecentTopic
+{
+    
 }
 
 /**

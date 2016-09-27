@@ -55,6 +55,9 @@
     self.tableView.rowHeight = UITableViewAutomaticDimension;
 //    self.tableView.rowHeight = 77;
     
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:nil];
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -70,7 +73,7 @@
 //}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete implementation, return the number of rows
+    
     return self.topics.count;
 }
 

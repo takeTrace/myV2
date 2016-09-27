@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MJRefresh.h>
 @class V2TopicModel;
 @interface V2BaseTableViewController : UITableViewController
 

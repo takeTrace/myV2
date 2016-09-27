@@ -70,6 +70,8 @@
         //  内容
         [self getTopicContentInElement:tr toTopic:topic failure:failure];
         //  存到数组, 这里应该进行用户标识时间戳, 避免加载正常话题时和使用同一个字段排序的话会混乱
+        topic.getTime = @"0";
+        topic.userTopicGetTime = [self localTimeMarkByIndex:idx];
         [topics addObject:topic];
         
     }];
@@ -88,19 +90,13 @@
     ONOXMLElement *box = [doc firstChildWithCSS:@".box"];
     ONOXMLElement *header = [box firstChildWithCSS:@".header"];
     NSNumber *tatolReplyCount = [header firstChildWithCSS:@".gray"].numberValue;
-    YCLog(@"%@的回复总数是: %@", member.username, tatolReplyCount);
     //*[@id="Wrapper"]/div/div/div[4]
     //*[@id="Wrapper"]/div/div/div[6]
     //  所以...还是不要用 xpath 解析了...
     
-    //  这里
     
     //  没被隐藏,  遍历话题条目
     __block NSMutableArray<V2MemberReplyModel *> *replies = [NSMutableArray array];
-    ONOXMLElement *dockr = [box firstChildWithCSS:@".dock_area"];
-    ONOXMLElement *innerr = [box firstChildWithCSS:@".inner"];
-    ONOXMLElement *innerPre = [innerr previousSibling];
-    YCLog(@"innerr.tag%@", innerPre.attributes[@"class"] );
 
     NSEnumerator *enu = (NSEnumerator *)[box CSS:@".inner"];
     NSArray<ONOXMLElement *> *inners = enu.allObjects;
@@ -121,17 +117,12 @@
         memberReply.topicId = memberReply.topicUrlStr.lastPathComponent;
         
         memberReply.replyHeader = [dock firstChildWithCSS:@".gray"].stringValue;
-        YCLog(@"header: %@", memberReply.replyHeader);
-        
         
         //  每个dock_area后面那个节点就是 inner, 回复内容
         ONOXMLElement *inner = inners[idx];
-//        ONOXMLElement *inner = [dock nextSibling];
-        YCLog(@"dock: %@, inner: %@", dock.attributes[@"class"], inner.tag);
         ONOXMLElement *reply_content = [inner firstChildWithCSS:@".reply_content"];
-        YCLog(@"ele: %@", reply_content.attributes[@"class"]);
         [self isElementExist:reply_content failure:failure];
-        YCLog(@"reply_content: \n%@", reply_content);
+
         //  如果得到的存在多余的东西, 等换成字符串再处理, 把不想干的字段替换为@"", 反正不相关的字段都是在每条都是一样的
         memberReply.content = reply_content.stringValue;
         memberReply.content_rendered = NSStringFromFormat(@"%@", reply_content);
@@ -430,6 +421,8 @@
  *    获取node 下的话题     */
 + (void)parseTopicsWithDocument:(NSData *)docData fromNode:(V2NodeModel *)fromNode Success:(void (^)(NSArray<V2TopicModel *> *topics))success failure:(void (^)(NSError *error))failure
 {
+    
+//    YCLog(@"\n%@", [[NSString alloc] initWithData:docData encoding:NSUTF8StringEncoding]);
     ONOXMLElement *topBox = [self getBoxElementWithData:docData failure:failure];
   
     /**
@@ -460,9 +453,9 @@
 //  ********************   解析数据   ******************************   //
         /**
          *   用户头像     */
-        if (fromNode) {
+//        if (fromNode) {
             if (![topicRow firstChildWithCSS:@".avatar"]) continue;
-        }
+//        }
         ONOXMLElement *norImage = [self getIconInElement:topicRow toTopic:topic failure:failure];
         
         /**

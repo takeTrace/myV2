@@ -208,10 +208,10 @@ static const FMDatabase *V2DB;
     
     if ([tableName isEqualToString:dbTopicsT]) {
         
-        NSString *insert = [NSString stringWithFormat:@"INSERT INTO %@(%@, %@, %@, %@, %@, %@, %@, %@) VALUES(?, ?, ?, ?, ?, ?, ?, ?);", tableName, dbIdStr, dbGetTime, dbMemberId, dbLatest, dbHotest, dbNodeName, dbTabName, dbDictData];
+        NSString *insert = [NSString stringWithFormat:@"INSERT INTO %@(%@, %@, %@, %@, %@, %@, %@, %@, %@, %@) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", tableName, dbIdStr, dbGetTime, dbUserGetTime, dbMemberId, dbMemberName, dbLatest, dbHotest, dbNodeName, dbTabName, dbDictData];
         
         
-        return [V2DB executeUpdate:insert, dict[@"id"], dict[@"getTime"], dict[@"member"][@"username"], dict[@"lastest"], dict[@"hotest"], dict[@"node"][@"name"], dict[@"tab"], data];
+        return [V2DB executeUpdate:insert, dict[@"id"], dict[@"getTime"], dict[@"userTopicGetTime"], dict[@"member"][@"ID"], dict[@"member"][@"userName"], dict[@"lastest"], dict[@"hotest"], dict[@"node"][@"name"], dict[@"tab"], data];
         
     } else if ([tableName isEqualToString:dbAllNodesT]) {
         
@@ -257,7 +257,7 @@ static const FMDatabase *V2DB;
         query = [NSString stringWithFormat:@"SELECT %@, %@ FROM %@ WHERE %@ = '%@' ORDER BY %@ DESC ", dbIdStr, dbDictData, tableName, dbIdStr, idStr, dbGetTime];
     } else
     {
-        query = [NSString stringWithFormat:@"SELECT %@, %@ FROM %@;", dbIdStr, dbDictData, tableName];
+        query = [NSString stringWithFormat:@"SELECT %@, %@ FROM %@ ORDER BY %@ DESC;", dbIdStr, dbDictData, tableName, dbGetTime];//这里修改了获取全部未排序的 bug, 现在好了, 待测试
     }
     
     return [self getDataWithQuery:query];
