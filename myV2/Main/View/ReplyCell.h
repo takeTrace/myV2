@@ -10,7 +10,7 @@
 @class V2ReplyModel;
 @interface ReplyCell : UITableViewCell
 @property (nonatomic, strong) V2ReplyModel *reply;
-
+@property (nonatomic, assign) NSUInteger floorIndex;
 /**
  *   创建一个 cell     */
 + (instancetype)cellWithTableView:(UITableView *)tableView;

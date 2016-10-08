@@ -24,16 +24,12 @@
 //@property (weak, nonatomic) IBOutlet UILabel *nodeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 @property (weak, nonatomic) IBOutlet UIButton *thxButton;
-@property (weak, nonatomic) IBOutlet UIButton *floorBtn;
+@property (weak, nonatomic) IBOutlet UILabel *floorLabel;
 @property (nonatomic, weak) UILabel *compatLabel;
 @end
 @implementation ReplyCell
 
 - (void)awakeFromNib {
-    // Initialization code
-    
-    //    UIVisualEffectView *blureView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight]];
-    //    [self.timeLabel.superview insertSubview:blureView atIndex:0];
     
     UIVisualEffectView *cellBg = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
     self.backgroundView = cellBg;
@@ -82,20 +78,20 @@
     if (self) {
         UILabel *la = [[UILabel alloc] init];
         [self.contentView insertSubview:la belowSubview:self.contentLabel];
-//        la.frame = self.contentLabel.frame;
         la.hidden = YES;
         self.compatLabel = la;
+        [self.thxButton addTapTarget:self action:@selector(thxDidClick:)];
         
     }
     return self;
 }
-//- (void)layoutSubviews
-//{
-//    
-//    self.contentLabel.preferWidth = self.width - 10;
-//    self.compatLabel.frame = self.contentLabel.frame;
-//    [super layoutSubviews];
-//}
+
+- (void)setFloorIndex:(NSUInteger)floorIndex
+{
+    _floorIndex = floorIndex;
+    
+    self.floorLabel.text = NSStringFromFormat(@"%d", floorIndex);
+}
 
 - (void)setReply:(V2ReplyModel *)reply
 {
@@ -104,19 +100,12 @@
     [self.icon sd_setImageWithURL:[NSURL URLWithString:reply.member.avatar_normal]];
     self.contentLabel.attributedString = [[NSAttributedString alloc] initWithData:[reply.content_rendered dataUsingEncoding:NSUnicodeStringEncoding] options:@{NSDocumentTypeDocumentAttribute : NSHTMLTextDocumentType} documentAttributes:nil error:nil];
     self.userNameLabe.text = _reply.member.username;
-//    self.nodeLabel.text = _reply.node.title;
     self.timeLabel.text = _reply.created;
 }
 
 - (CGFloat)heightForCellWithWidth:(CGFloat )width
 {
     self.contentLabel.preferWidth = self.width - 10;
-//    YCLog(@"contentLabel.Size: %f", self.contentLabel.contentHeight);
-    
-    //    [self.label setNeedsUpdateConstraints];
-    //    [self.label updateConstraintsIfNeeded];
-    
-    //        [de setNeedsLayout];
     
     YCLog(@"reply 的 高 %g",self.contentLabel.height);
 
@@ -126,4 +115,8 @@
     return si.height;
 }
 
+- (void)thxDidClick:(UIButton *)sender
+{
+    YCLog(@"以感谢");
+}
 @end

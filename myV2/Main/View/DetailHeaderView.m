@@ -41,11 +41,6 @@
     self.contentLabel.preferWidth = width;
     NSLog(@"contentLabel.Size: %f", self.contentLabel.contentHeight);
     
-    //    [self.label setNeedsUpdateConstraints];
-    //    [self.label updateConstraintsIfNeeded];
-    
-    //        [de setNeedsLayout];
-    
     NSLog(@"高高高%g",self.contentLabel.height);
     self.titleLabel.preferredMaxLayoutWidth = width - 10;
     CGSize si = CGSizeMake(width, [self systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + self.contentLabel.height);
@@ -104,7 +99,7 @@
     
     
     _nodeLabel.text = topic.node.title;
-    _createTimeLabel.text = NSStringFromFormat(@"%@", [NSDate dateWithTimeIntervalSince1970:[topic.created intValue]]);
+    _createTimeLabel.text = [self getTime:_topic.created];
     [_userIcon sd_setImageWithURL:[NSURL URLWithString:topic.member.avatar_normal] placeholderImage:[UIImage imageNamed:@"icon"]];
     _userNameLabel.text = topic.member.username;
     _titleLabel.text = topic.title;
@@ -112,5 +107,19 @@
     
     [self setNeedsLayout];
 
+}
+
+- (NSString *)getTime:(NSString *)created
+{
+    int time = created.intValue;
+    if (!time || [created rangeOfString:@"置顶"].length>0
+        || [created rangeOfString:@"前"].length>0
+        || [created rangeOfString:@"go"].length>0) return created;
+    
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:time];
+    NSDateFormatter *fmt = [[NSDateFormatter alloc] init];
+    fmt.dateFormat = @"YYYY-MM-dd | HH:mm";
+    
+    return [fmt stringFromDate:date];
 }
 @end

@@ -77,7 +77,7 @@
                     </view>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MVF-aZ-tb2">
                         <rect key="frame" x="230" y="39" width="30" height="24"/>
-                        <state key="normal" title="感谢"/>
+                        <state key="normal" title="👏"/>
                     </button>
                 </subviews>
                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -123,6 +123,7 @@
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
             <connections>
                 <outlet property="contentLabel" destination="jNm-N6-Vpy" id="fxE-qQ-Bu7"/>
+                <outlet property="floorLabel" destination="dl9-2i-zjE" id="qNo-QA-vLS"/>
                 <outlet property="icon" destination="OR4-rG-Oo6" id="F6g-C3-KXr"/>
                 <outlet property="thxButton" destination="MVF-aZ-tb2" id="w02-Kx-jZm"/>
                 <outlet property="timeLabel" destination="YOa-0D-NEO" id="fEQ-kZ-wih"/>

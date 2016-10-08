@@ -153,6 +153,7 @@
     V2ReplyModel *reply = self.replies[indexPath.row];
     
     cell.reply = reply;
+    cell.floorIndex = indexPath.row;
     
     return cell;
 }

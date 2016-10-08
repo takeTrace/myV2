@@ -55,26 +55,13 @@
      *   监听通知     */
     [self observingNotification];
     
-//    UIImage *clearImage = [UIImage imageWithColor:[UIColor clearColor]];
-    
     self.view.backgroundColor = [UIColor colorWithWhite:0.8 alpha:0.15];
-//    UIVisualEffectView *cellBg = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
-//    [self.view insertSubview:cellBg atIndex:1];
-    
-//    self.tableView.backgroundView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
-    ILTranslucentView *blure = [[ILTranslucentView alloc] initWithFrame:self.view.bounds];
-    blure.translucentAlpha = 0.8;
-    blure.translucentStyle = UIBarStyleBlack;
-    blure.translucentTintColor = [UIColor yellowColor];
-//    blure.backgroundColor = [UIColor clearColor];
-//    self.tableView.backgroundView =[[UIImageView alloc] initWithImage:clearImage];
     
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
-    
-//    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:nil];
-
-    
+    //    ILTranslucentView *blure = [[ILTranslucentView alloc] initWithFrame:self.view.bounds];
+    //    blure.translucentAlpha = 0.8;
+    //    blure.translucentStyle = UIBarStyleBlack;
+    //    blure.translucentTintColor = [UIColor yellowColor];
 }
 
 /**
@@ -106,37 +93,10 @@
  *   nodeNav节点按钮被点击     */
 - (void)nodeNavBtnDidClick:(NSNotification *)note
 {
-    V2NodeModel *node = (V2NodeModel *)note.userInfo[NodeBtnClickWithNodeKey];
-    //    self.title = node.title;
-    self.currentNode = node;
-
-    //  判断当前最上面的控制器是否显示节点内容!! 从节点导航控制器到这里, 肯定不是 recent 处于最上面
-//    UIViewController *currentVc = [self.navigationController topViewController];
-//    if ([currentVc isKindOfClass:[V2RecentViewController class]]) {
-//        V2RecentViewController *reCtller = (V2RecentViewController *)currentVc;
-//        if ([reCtller.showedNode.title isEqualToString:self.currentNode.title] ) return;
-//    }
     [self.navigationController popViewControllerAnimated:YES];
     
-//    typeof(self) weakSelf = self;
-//    self.tableView.mj_header.refreshingBlock = ^{
-//        [V2DataManager updateTopicsWithNode:weakSelf.currentNode page:nil success:^(NSArray<V2TopicModel *> *topics) {
-//            weakSelf.topics = topics;
-//            [weakSelf.tableView reloadData];
-//            [weakSelf.tableView.mj_header endRefreshing];
-//        } failure:^(NSError *error) {
-//            YCLog(@"更新'%@'节点话题失败 %@", node, error);
-//            [weakSelf.tableView.mj_header endRefreshing];
-//        }];
-//    };
-//    [V2DataManager getTopicsWithNode:node success:^(NSArray<V2TopicModel *> *topics) {
-//        weakSelf.topics = topics;
-//        [weakSelf.tableView reloadData];
-//    } failure:^(NSError *error) {
-//        YCLog(@"获取节点 topics 失败, error: %@", error);
-//    }];
-    
-    
+    V2NodeModel *node = (V2NodeModel *)note.userInfo[NodeBtnClickWithNodeKey];
+    self.currentNode = node;
     
     V2RecentViewController *nodeCtller = [[V2RecentViewController alloc] init];
     nodeCtller.showedNode = self.currentNode;
@@ -232,13 +192,6 @@
 }
 
 /**
- *   查看 recent 主题     */
-- (void)broswerRecentTopic
-{
-    
-}
-
-/**
  *   配置导航栏     */
 - (void)configNavigationBar
 {
@@ -274,13 +227,6 @@
     UIViewController *vc = [[aclass alloc] init];
     [self.navigationController pushViewController:vc animated:YES];
 }
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-//    // Get the new view controller using [segue destinationViewController].
-//    // Pass the selected object to the new view controller.
-//}
 
 
 @end
