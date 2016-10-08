@@ -107,28 +107,40 @@
 - (void)nodeNavBtnDidClick:(NSNotification *)note
 {
     V2NodeModel *node = (V2NodeModel *)note.userInfo[NodeBtnClickWithNodeKey];
-    self.title = node.title;
+    //    self.title = node.title;
     self.currentNode = node;
-    typeof(self) weakSelf = self;
-    self.tableView.mj_header.refreshingBlock = ^{
-        [V2DataManager updateTopicsWithNode:weakSelf.currentNode page:nil success:^(NSArray<V2TopicModel *> *topics) {
-            weakSelf.topics = topics;
-            [weakSelf.tableView reloadData];
-            [weakSelf.tableView.mj_header endRefreshing];
-        } failure:^(NSError *error) {
-            YCLog(@"更新'%@'节点话题失败 %@", node, error);
-            [weakSelf.tableView.mj_header endRefreshing];
-        }];
-    };
-    [V2DataManager getTopicsWithNode:node success:^(NSArray<V2TopicModel *> *topics) {
-        weakSelf.topics = topics;
-        [weakSelf.tableView reloadData];
-    } failure:^(NSError *error) {
-        YCLog(@"获取节点 topics 失败, error: %@", error);
-    }];
-    
+
+    //  判断当前最上面的控制器是否显示节点内容!! 从节点导航控制器到这里, 肯定不是 recent 处于最上面
+//    UIViewController *currentVc = [self.navigationController topViewController];
+//    if ([currentVc isKindOfClass:[V2RecentViewController class]]) {
+//        V2RecentViewController *reCtller = (V2RecentViewController *)currentVc;
+//        if ([reCtller.showedNode.title isEqualToString:self.currentNode.title] ) return;
+//    }
     [self.navigationController popViewControllerAnimated:YES];
     
+//    typeof(self) weakSelf = self;
+//    self.tableView.mj_header.refreshingBlock = ^{
+//        [V2DataManager updateTopicsWithNode:weakSelf.currentNode page:nil success:^(NSArray<V2TopicModel *> *topics) {
+//            weakSelf.topics = topics;
+//            [weakSelf.tableView reloadData];
+//            [weakSelf.tableView.mj_header endRefreshing];
+//        } failure:^(NSError *error) {
+//            YCLog(@"更新'%@'节点话题失败 %@", node, error);
+//            [weakSelf.tableView.mj_header endRefreshing];
+//        }];
+//    };
+//    [V2DataManager getTopicsWithNode:node success:^(NSArray<V2TopicModel *> *topics) {
+//        weakSelf.topics = topics;
+//        [weakSelf.tableView reloadData];
+//    } failure:^(NSError *error) {
+//        YCLog(@"获取节点 topics 失败, error: %@", error);
+//    }];
+    
+    
+    
+    V2RecentViewController *nodeCtller = [[V2RecentViewController alloc] init];
+    nodeCtller.showedNode = self.currentNode;
+    [self.navigationController pushViewController:nodeCtller animated:YES];
     
 }
 

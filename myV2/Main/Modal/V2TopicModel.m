@@ -17,7 +17,7 @@
 
 - (void)setCreated:(NSString *)created
 {
-    if ([created rangeOfString:@"回复"].length > 0) {
+    if (([created rangeOfString:@"回复"].length > 0) || ([created rangeOfString:@"前"].length > 0) || ([created rangeOfString:@"置顶"].length > 0)) {
         _created = created;
         return;
     } else if ([created rangeOfString:@"字符"].length > 0)

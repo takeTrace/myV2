@@ -268,7 +268,7 @@ static NSMutableDictionary *_lastTabPara;
     
     /**
      *   再没有, 从网络拿      */
-    [self updateTopicsWithNode:node page:nil success:success failure:failure];
+//    [self updateTopicsWithNode:node page:nil success:success failure:failure];
 }
 
 + (void)updateTopicsWithNode:(V2NodeModel *)node page:(NSNumber *)page success:(void (^)(NSArray<V2TopicModel *> *topics))success failure:(void (^)(NSError *error))failure
@@ -299,7 +299,7 @@ static NSMutableDictionary *_lastTabPara;
                     
                     _tabsTopics[node.name] = nodeTopics;
                     
-                    success(nodeTopics);
+                    success(topics);
                     
                     [self clearOutDateData];
                     
@@ -362,7 +362,7 @@ static NSMutableDictionary *_lastTabPara;
     
     /**
      *   再没有, 从网络拿      */
-    [self updateMoreTopicsWithPage:page success:success failure:failure];
+//    [self updateMoreTopicsWithPage:page success:success failure:failure];
 
     
 
@@ -380,6 +380,7 @@ static NSMutableDictionary *_lastTabPara;
             
             if ([self saveTopics:topics withClear:NO needSearch:YES withTab:nil latest:nil hotest:nil]) {
                 
+                
                 //  拿到数据库中唯一的数据
                 NSArray *dbTabTopic = [V2DataBaseTool allDataFromDataBaseFromTable:dbTopicsT];
                 if (dbTabTopic.count > 0) {
@@ -389,7 +390,7 @@ static NSMutableDictionary *_lastTabPara;
                     
                     _tabsTopics[@"more"] = moreTopics;
                     
-                    success(moreTopics);
+                    success(topics);
                     
                     [self clearOutDateData];
                     
@@ -951,7 +952,7 @@ static NSMutableDictionary *_lastTabPara;
     [V2OperationTool GET:agetTopic dataType:V2DataTypeJSON parameters:para tag:nil success:^(id responseObject) {
         NSArray<V2TopicModel *> *arr = [V2TopicModel mj_objectArrayWithKeyValuesArray:responseObject];
         [arr enumerateObjectsUsingBlock:^(V2TopicModel * _Nonnull topic, NSUInteger idx, BOOL * _Nonnull stop) {
-            double timeOffset = arr.count/100.0;
+            double timeOffset = 1 - arr.count/100.0;
             
             topic.getTime = NSStringFromFormat(@"%g", [[NSDate date] timeIntervalSince1970] + timeOffset);
         }];
@@ -960,6 +961,8 @@ static NSMutableDictionary *_lastTabPara;
         
         YCPlog;
         YCLog(@"Topicsssss \n %@", responseObject);
+        
+        [self saveTopics:arr withClear:NO needSearch:NO withTab:nil latest:nil hotest:nil];
         
         [self clearOutDateData];
         

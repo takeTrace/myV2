@@ -200,7 +200,7 @@
     ONOXMLDocument *doc = [ONOXMLDocument HTMLDocumentWithData:docData error:&error];
 
     NSEnumerator *boxs = (NSEnumerator *)[doc CSS:@".box"];
-    ONOXMLElement *bottomBox = boxs.allObjects[1];
+    ONOXMLElement *bottomBox = [boxs.allObjects lastObject];
     
     if (!bottomBox) {
         failure([NSError errorWithDomain:@"页面 Dom 结构可能改变, 请检查" code:0 userInfo:nil]);

@@ -23,6 +23,7 @@
 		0417C5D51D75E08E009F5471 /* V2TopicModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0417C5D41D75E08E009F5471 /* V2TopicModel.m */; };
 		0417C5D81D75E4AC009F5471 /* V2MemberModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0417C5D71D75E4AC009F5471 /* V2MemberModel.m */; };
 		0417C5DB1D765D71009F5471 /* V2ReplyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0417C5DA1D765D71009F5471 /* V2ReplyModel.m */; };
+		041A6F611DA88A5600DD4120 /* V2hHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 041A6F601DA88A5600DD4120 /* V2hHistoryViewController.m */; };
 		041CA55C1D80FF20007F2915 /* TopicDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 041CA55A1D80FF20007F2915 /* TopicDetailViewController.m */; };
 		041CA55D1D80FF20007F2915 /* TopicDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 041CA55B1D80FF20007F2915 /* TopicDetailViewController.xib */; };
 		0426027E1D7AAD7E001AD0A1 /* V2NodesGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 0426027D1D7AAD7E001AD0A1 /* V2NodesGroup.m */; };
@@ -127,6 +128,8 @@
 		0417C5D71D75E4AC009F5471 /* V2MemberModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = V2MemberModel.m; sourceTree = "<group>"; };
 		0417C5D91D765D71009F5471 /* V2ReplyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = V2ReplyModel.h; sourceTree = "<group>"; };
 		0417C5DA1D765D71009F5471 /* V2ReplyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = V2ReplyModel.m; sourceTree = "<group>"; };
+		041A6F5F1DA88A5600DD4120 /* V2hHistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = V2hHistoryViewController.h; sourceTree = "<group>"; };
+		041A6F601DA88A5600DD4120 /* V2hHistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = V2hHistoryViewController.m; sourceTree = "<group>"; };
 		041CA5591D80FF20007F2915 /* TopicDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicDetailViewController.h; sourceTree = "<group>"; };
 		041CA55A1D80FF20007F2915 /* TopicDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicDetailViewController.m; sourceTree = "<group>"; };
 		041CA55B1D80FF20007F2915 /* TopicDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TopicDetailViewController.xib; sourceTree = "<group>"; };
@@ -367,6 +370,8 @@
 				047BDFD21D7D90CF0034B6DC /* CenterViewController.m */,
 				043C15C61D9A573100BB156E /* V2RecentViewController.h */,
 				043C15C71D9A573100BB156E /* V2RecentViewController.m */,
+				041A6F5F1DA88A5600DD4120 /* V2hHistoryViewController.h */,
+				041A6F601DA88A5600DD4120 /* V2hHistoryViewController.m */,
 				041CA5591D80FF20007F2915 /* TopicDetailViewController.h */,
 				041CA55A1D80FF20007F2915 /* TopicDetailViewController.m */,
 				041CA55B1D80FF20007F2915 /* TopicDetailViewController.xib */,
@@ -869,6 +874,7 @@
 				04CBD2A91D7A4ADC005F9685 /* tokenizer.c in Sources */,
 				0417C59A1D748E15009F5471 /* ViewController.m in Sources */,
 				04CBD2AF1D7A8FEC005F9685 /* V2TabModel.m in Sources */,
+				041A6F611DA88A5600DD4120 /* V2hHistoryViewController.m in Sources */,
 				04CBD2A31D7A4ADC005F9685 /* char_ref.c in Sources */,
 				0417C5971D748E15009F5471 /* AppDelegate.m in Sources */,
 				04E873D71D8EB29300874B59 /* V2SettingModel.m in Sources */,
