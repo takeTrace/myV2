@@ -1,0 +1,80 @@
+PODS:
+  - AFNetworking (2.2.4):
+    - AFNetworking/NSURLConnection (= 2.2.4)
+    - AFNetworking/NSURLSession (= 2.2.4)
+    - AFNetworking/Reachability (= 2.2.4)
+    - AFNetworking/Security (= 2.2.4)
+    - AFNetworking/Serialization (= 2.2.4)
+    - AFNetworking/UIKit (= 2.2.4)
+  - AFNetworking/NSURLConnection (2.2.4):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/NSURLSession (2.2.4):
+    - AFNetworking/NSURLConnection
+  - AFNetworking/Reachability (2.2.4)
+  - AFNetworking/Security (2.2.4)
+  - AFNetworking/Serialization (2.2.4)
+  - AFNetworking/UIKit (2.2.4):
+    - AFNetworking/NSURLConnection
+    - AFNetworking/NSURLSession
+  - AFOnoResponseSerializer (1.0.0):
+    - AFNetworking (~> 2.2)
+    - Ono (~> 1.0)
+  - FMDB (2.6.2):
+    - FMDB/standard (= 2.6.2)
+  - FMDB/standard (2.6.2)
+  - FXBlurView (1.6.4)
+  - Masonry (1.0.1)
+  - MJExtension (3.0.13)
+  - MJRefresh (3.1.12)
+  - MMDrawerController (0.6.0):
+    - MMDrawerController/Core (= 0.6.0)
+    - MMDrawerController/MMDrawerBarButtonItem (= 0.6.0)
+    - MMDrawerController/MMDrawerVisualStates (= 0.6.0)
+    - MMDrawerController/Subclass (= 0.6.0)
+  - MMDrawerController/Core (0.6.0)
+  - MMDrawerController/MMDrawerBarButtonItem (0.6.0):
+    - MMDrawerController/Core
+  - MMDrawerController/MMDrawerVisualStates (0.6.0):
+    - MMDrawerController/Core
+  - MMDrawerController/Subclass (0.6.0):
+    - MMDrawerController/Core
+  - NSDate+TimeAgo (1.0.6)
+  - Ono (1.2.2)
+  - SDAutoLayout (2.1.7)
+  - SDWebImage (3.8.1):
+    - SDWebImage/Core (= 3.8.1)
+  - SDWebImage/Core (3.8.1)
+
+DEPENDENCIES:
+  - AFNetworking (~> 2.2.0)
+  - AFOnoResponseSerializer (~> 1.0.0)
+  - FMDB (~> 2.6.2)
+  - FXBlurView (~> 1.6.4)
+  - Masonry (~> 1.0.1)
+  - MJExtension (~> 3.0.13)
+  - MJRefresh (~> 3.1.12)
+  - MMDrawerController (~> 0.6.0)
+  - NSDate+TimeAgo (~> 1.0.6)
+  - Ono (~> 1.2.2)
+  - SDAutoLayout (~> 2.1.7)
+  - SDWebImage (~> 3.8.1)
+
+SPEC CHECKSUMS:
+  AFNetworking: caca0799b310f0c3bf1fc1af45145fc96972bcab
+  AFOnoResponseSerializer: c02c8bef1d6742ac68f33ecaed41826c9657bc33
+  FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
+  FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
+  Masonry: a1a931a0d08870ed8ae415a2ea5ea68ebcac77df
+  MJExtension: 5932755f451458eefa24239358817f8d291240c7
+  MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
+  MMDrawerController: e3a54a5570388463ad3b36975251575b50c4e1a0
+  NSDate+TimeAgo: 35601c619b2d59290055e4fe76e61d97677a2360
+  Ono: 80b1c686777d3f6d5d5ce6fcac8a74afef4ca197
+  SDAutoLayout: e9b36d04b8c0b504762a04d76fbbe5108944297a
+  SDWebImage: 35f9627a3e44b4f292a8a8ce6a531fa488239b91
+
+PODFILE CHECKSUM: bd48ae3c4ef8dabdff273cebd4519b24542b4ada
+
+COCOAPODS: 1.0.1
