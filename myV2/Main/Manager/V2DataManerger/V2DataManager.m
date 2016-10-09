@@ -284,10 +284,6 @@ static NSMutableDictionary *_lastTabPara;
 
         [V2HtmlParser parseTopicsWithDocument:responseObject fromNode:node Success:^(NSArray<V2TopicModel *> *topics) {
             
-            
-//            [topics performSelectorInBackground:@selector(setNode:) withObject:node];
-//            [topics performSelectorOnMainThread:@selector(setNode:) withObject:node waitUntilDone:YES];
-            
             if ([self saveTopics:topics withClear:NO needSearch:YES withTab:nil latest:nil hotest:nil]) {
                 
                 //  拿到数据库中唯一的数据
@@ -951,10 +947,12 @@ static NSMutableDictionary *_lastTabPara;
     
     [V2OperationTool GET:agetTopic dataType:V2DataTypeJSON parameters:para tag:nil success:^(id responseObject) {
         NSArray<V2TopicModel *> *arr = [V2TopicModel mj_objectArrayWithKeyValuesArray:responseObject];
+        
+        int now = [[NSDate date] timeIntervalSince1970];
         [arr enumerateObjectsUsingBlock:^(V2TopicModel * _Nonnull topic, NSUInteger idx, BOOL * _Nonnull stop) {
             double timeOffset = 1 - arr.count/100.0;
             
-            topic.getTime = NSStringFromFormat(@"%g", [[NSDate date] timeIntervalSince1970] + timeOffset);
+            topic.getTime = NSStringFromFormat(@"%g", now + timeOffset);
         }];
         
         success(arr);

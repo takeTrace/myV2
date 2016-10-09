@@ -17,6 +17,8 @@
 
 #define V2Domain @"www.v2ex.com"
 
+static int _now = 0;
+
 @implementation V2HtmlParser
 
 #pragma mark- 检查元素节点是否存在
@@ -57,6 +59,7 @@
     //  没被隐藏,  遍历话题条目
     __block NSMutableArray<V2TopicModel *> *topics = [NSMutableArray array];
     
+    int now = [[NSDate date] timeIntervalSince1970];
     [box enumerateElementsWithCSS:@"tr" usingBlock:^(ONOXMLElement *tr, NSUInteger idx, BOOL *stop) {
         
         if (![tr firstChildWithCSS:@".item_title"]) return;
@@ -71,7 +74,7 @@
         [self getTopicContentInElement:tr toTopic:topic failure:failure];
         //  存到数组, 这里应该进行用户标识时间戳, 避免加载正常话题时和使用同一个字段排序的话会混乱
         topic.getTime = @"0";
-        topic.userTopicGetTime = [self localTimeMarkByIndex:idx];
+        topic.userTopicGetTime = [self localTimeMarkByIndex:idx fromNow:now];
         [topics addObject:topic];
         
     }];
@@ -409,10 +412,10 @@
 
 /**
  *    时间戳     */
-+ (NSString *)localTimeMarkByIndex:(NSUInteger)index
++ (NSString *)localTimeMarkByIndex:(NSUInteger)index fromNow:(int)now
 {
-    double timeOffset = 1.0 - (index/100.0);
-    return NSStringFromFormat(@"%g", [[NSDate date] timeIntervalSince1970] + timeOffset);
+    double timeOffset = 0.9 - (index/100.0);
+    return NSStringFromFormat(@"%g", now + timeOffset);
 }
 
 
@@ -428,6 +431,10 @@
     /**
      *   保存解析到的话题的数组     */
     NSMutableArray *topics = [NSMutableArray array];
+    
+    //  定下当前解析时间
+    int now = [[NSDate date] timeIntervalSince1970];
+    
     
     //  3. 其子元素就是所需的 topic, 遍历获得对应数据给模型
     for (ONOXMLElement *topicRow in [topBox CSS:@"tr"]) {
@@ -476,7 +483,7 @@
         
         /**
          *   将更新时间也按照获得的顺序, 在最前面的是最新更新的, 时间应该更大     */
-        topic.getTime = [self localTimeMarkByIndex:topics.count];
+        topic.getTime = [self localTimeMarkByIndex:topics.count fromNow:now];
         
         /**
          *   添加到话题数组     */
