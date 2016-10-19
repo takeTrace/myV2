@@ -33,7 +33,6 @@
 		045AC4E81D85581000575479 /* DetailHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 045AC4E61D85581000575479 /* DetailHeaderView.m */; };
 		045AC4E91D85581000575479 /* DetailHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 045AC4E71D85581000575479 /* DetailHeaderView.xib */; };
 		045AC4ED1D86463700575479 /* ReplyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 045AC4EB1D86463700575479 /* ReplyCell.m */; };
-		045AC4EE1D86463700575479 /* ReplyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 045AC4EC1D86463700575479 /* ReplyCell.xib */; };
 		045AC4F41D87987500575479 /* NodesNavController.m in Sources */ = {isa = PBXBuildFile; fileRef = 045AC4F31D87987500575479 /* NodesNavController.m */; };
 		045AC4F71D87A82D00575479 /* V2SettingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 045AC4F61D87A82D00575479 /* V2SettingManager.m */; };
 		045DBC1C1D7FE77A00FADC12 /* TopicCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 045DBC1A1D7FE77A00FADC12 /* TopicCell.m */; };
@@ -52,6 +51,7 @@
 		048930E91D92712F006E8D85 /* V2LoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 048930E71D92712E006E8D85 /* V2LoginController.m */; };
 		048930EA1D92712F006E8D85 /* V2LoginController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 048930E81D92712E006E8D85 /* V2LoginController.xib */; };
 		048D44071D804401007FA556 /* ILTranslucentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 048D44061D804401007FA556 /* ILTranslucentView.m */; };
+		049BEE9E1DB6FE4D00D75BE4 /* ReplyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 049BEE9D1DB6FE4D00D75BE4 /* ReplyCell.xib */; };
 		04A4F9C61D9803C100470ED6 /* V2MemberTopicsTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A4F9C51D9803C100470ED6 /* V2MemberTopicsTable.m */; };
 		04A4F9C91D9803D900470ED6 /* V2MemberRepliesTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A4F9C81D9803D900470ED6 /* V2MemberRepliesTable.m */; };
 		04AFF2961D97832E008E5EC0 /* V2MemberReplyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04AFF2951D97832E008E5EC0 /* V2MemberReplyModel.m */; };
@@ -146,7 +146,6 @@
 		045AC4E71D85581000575479 /* DetailHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailHeaderView.xib; sourceTree = "<group>"; };
 		045AC4EA1D86463700575479 /* ReplyCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReplyCell.h; sourceTree = "<group>"; };
 		045AC4EB1D86463700575479 /* ReplyCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReplyCell.m; sourceTree = "<group>"; };
-		045AC4EC1D86463700575479 /* ReplyCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReplyCell.xib; sourceTree = "<group>"; };
 		045AC4F21D87987500575479 /* NodesNavController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NodesNavController.h; sourceTree = "<group>"; };
 		045AC4F31D87987500575479 /* NodesNavController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NodesNavController.m; sourceTree = "<group>"; };
 		045AC4F51D87A82D00575479 /* V2SettingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = V2SettingManager.h; sourceTree = "<group>"; };
@@ -183,6 +182,7 @@
 		048930E81D92712E006E8D85 /* V2LoginController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = V2LoginController.xib; sourceTree = "<group>"; };
 		048D44051D804401007FA556 /* ILTranslucentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ILTranslucentView.h; sourceTree = "<group>"; };
 		048D44061D804401007FA556 /* ILTranslucentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ILTranslucentView.m; sourceTree = "<group>"; };
+		049BEE9D1DB6FE4D00D75BE4 /* ReplyCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReplyCell.xib; sourceTree = "<group>"; };
 		04A4F9C41D9803C100470ED6 /* V2MemberTopicsTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = V2MemberTopicsTable.h; sourceTree = "<group>"; };
 		04A4F9C51D9803C100470ED6 /* V2MemberTopicsTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = V2MemberTopicsTable.m; sourceTree = "<group>"; };
 		04A4F9C71D9803D900470ED6 /* V2MemberRepliesTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = V2MemberRepliesTable.h; sourceTree = "<group>"; };
@@ -444,7 +444,7 @@
 				045AC4E31D8557FC00575479 /* YCAttributeLabel.m */,
 				045AC4EA1D86463700575479 /* ReplyCell.h */,
 				045AC4EB1D86463700575479 /* ReplyCell.m */,
-				045AC4EC1D86463700575479 /* ReplyCell.xib */,
+				049BEE9D1DB6FE4D00D75BE4 /* ReplyCell.xib */,
 				045DBC191D7FE77A00FADC12 /* TopicCell.h */,
 				045DBC1A1D7FE77A00FADC12 /* TopicCell.m */,
 				045DBC1B1D7FE77A00FADC12 /* TopicCell.xib */,
@@ -698,7 +698,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				045AC4E91D85581000575479 /* DetailHeaderView.xib in Resources */,
-				045AC4EE1D86463700575479 /* ReplyCell.xib in Resources */,
 				0417C5A21D748E15009F5471 /* LaunchScreen.storyboard in Resources */,
 				045DBC1D1D7FE77A00FADC12 /* TopicCell.xib in Resources */,
 				0417C59F1D748E15009F5471 /* Assets.xcassets in Resources */,
@@ -706,6 +705,7 @@
 				04E873DC1D8FDDF700874B59 /* settingInit.plist in Resources */,
 				041CA55D1D80FF20007F2915 /* TopicDetailViewController.xib in Resources */,
 				0417C59D1D748E15009F5471 /* Main.storyboard in Resources */,
+				049BEE9E1DB6FE4D00D75BE4 /* ReplyCell.xib in Resources */,
 				048930EA1D92712F006E8D85 /* V2LoginController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -16,6 +16,7 @@ target 'myV2' do
   pod 'MJRefresh', '~> 3.1.12'
   pod 'FXBlurView', '~> 1.6.4'
   pod 'NSDate+TimeAgo', '~> 1.0.6'
+  pod 'TYAttributedLabel', '~> 2.6.2'
   
 
   # Pods for myV2

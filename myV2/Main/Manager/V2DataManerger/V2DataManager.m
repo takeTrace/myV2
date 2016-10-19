@@ -204,7 +204,7 @@ static NSMutableDictionary *_lastTabPara;
             return ;
         }
         
-        YCLog(@"htmlData: \n%@", [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
+//        YCLog(@"htmlData: \n%@", [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
         [V2HtmlParser parseTopicsWithDocument:responseObject Success:^(NSArray<V2TopicModel *> *topics) {
 
             if (topics.count == 0) return;
@@ -995,8 +995,8 @@ static NSMutableDictionary *_lastTabPara;
     
     [V2OperationTool GET:agetReplaies dataType:V2DataTypeJSON parameters:para tag:nil success:^(id responseObject) {
         
-        YCPlog;
-        YCLog(@"replies; %@", responseObject);
+//        YCPlog;
+//        YCLog(@"replies; %@", responseObject);
         
         NSArray *arr = [V2ReplyModel mj_objectArrayWithKeyValuesArray:responseObject];
         success(arr);

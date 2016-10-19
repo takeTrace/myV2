@@ -46,6 +46,7 @@ PODS:
   - SDWebImage (3.8.1):
     - SDWebImage/Core (= 3.8.1)
   - SDWebImage/Core (3.8.1)
+  - TYAttributedLabel (2.6.2)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.2.0)
@@ -60,6 +61,7 @@ DEPENDENCIES:
   - Ono (~> 1.2.2)
   - SDAutoLayout (~> 2.1.7)
   - SDWebImage (~> 3.8.1)
+  - TYAttributedLabel (~> 2.6.2)
 
 SPEC CHECKSUMS:
   AFNetworking: caca0799b310f0c3bf1fc1af45145fc96972bcab
@@ -74,7 +76,8 @@ SPEC CHECKSUMS:
   Ono: 80b1c686777d3f6d5d5ce6fcac8a74afef4ca197
   SDAutoLayout: e9b36d04b8c0b504762a04d76fbbe5108944297a
   SDWebImage: 35f9627a3e44b4f292a8a8ce6a531fa488239b91
+  TYAttributedLabel: 1c1f1e7604043ba584e005d4fd3aee8a1a7a2020
 
-PODFILE CHECKSUM: bd48ae3c4ef8dabdff273cebd4519b24542b4ada
+PODFILE CHECKSUM: e082af77dda36fbd33f374a6397b8e720c1d07f1
 
 COCOAPODS: 1.0.1

@@ -19,5 +19,13 @@
  *    创建cell     */
 + (instancetype)cell;
 
+/**
+ *   拿到固定的能自动布局的高度     */
+//- (CGFloat)heightForAutoLayout;
+
+/**
+ // *   拿到富文本控件的宽度     */
+//- (CGFloat)widthForContentLabel;
+
 - (CGFloat)heightForCellWithWidth:(CGFloat )width;
 @end

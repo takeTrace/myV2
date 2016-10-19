@@ -18,51 +18,33 @@
 @interface ReplyCell ()
 @property (weak, nonatomic) IBOutlet UIImageView *icon;
 @property (weak, nonatomic) IBOutlet YCAttributeLabel *contentLabel;
+//@property (weak, nonatomic) IBOutlet UILabel *contentLabel;
 
-
+@property (nonatomic, assign) CGFloat baseHeight;
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabe;
-//@property (weak, nonatomic) IBOutlet UILabel *nodeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 @property (weak, nonatomic) IBOutlet UIButton *thxButton;
 @property (weak, nonatomic) IBOutlet UILabel *floorLabel;
-@property (nonatomic, weak) UILabel *compatLabel;
 @end
 @implementation ReplyCell
 
-- (void)awakeFromNib {
-    
-    UIVisualEffectView *cellBg = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
-    self.backgroundView = cellBg;
-    //    ILTranslucentView *blure = [[ILTranslucentView alloc] initWithFrame:self.bounds];
-    //    blure.translucentAlpha = 0.7;
-    //    blure.translucentStyle = UIBarStyleBlack;
-    //    blure.translucentTintColor = [UIColor clearColor];
-    //    blure.backgroundColor = [UIColor clearColor];
-    //    self.backgroundView = blure;
-    
-    self.icon.layer.cornerRadius = 5;
-    self.icon.clipsToBounds = YES;
-    
+- (CGFloat)baseHeight
+{
+    if (!_baseHeight) {
+        _baseHeight = [self systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height ;
+        
+    }
+    return _baseHeight;
 }
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-    
-    // Configure the view for the selected state
-}
-
-
 
 #pragma mark- 公开接口
-
 + (instancetype)cell
 {
-    return [[[NSBundle mainBundle] loadNibNamed:@"ReplyCell" owner:nil options:nil] lastObject];
+    return (ReplyCell *)[[[NSBundle mainBundle] loadNibNamed:@"ReplyCell" owner:nil options:nil] lastObject];
 }
-
 + (instancetype)cellWithTableView:(UITableView *)tableView
 {
-    static NSString *reuseID = @"ReplyCell";
+    static NSString *reuseID = @"ReplyCellreuse";
     
     ReplyCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseID];
     if (!cell) {
@@ -76,21 +58,32 @@
 {
     self = [super initWithCoder:coder];
     if (self) {
-        UILabel *la = [[UILabel alloc] init];
-        [self.contentView insertSubview:la belowSubview:self.contentLabel];
-        la.hidden = YES;
-        self.compatLabel = la;
-        [self.thxButton addTapTarget:self action:@selector(thxDidClick:)];
-        
+        [self setup];
     }
     return self;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self setup];
+    }
+    return self;
+}
+
+- (void)setup
+{
+    [self.thxButton addTapTarget:self action:@selector(thxDidClick:)];
+    self.icon.layer.cornerRadius = 5;
+    self.icon.clipsToBounds = YES;
 }
 
 - (void)setFloorIndex:(NSUInteger)floorIndex
 {
     _floorIndex = floorIndex;
     
-    self.floorLabel.text = NSStringFromFormat(@"%d", floorIndex);
+    self.floorLabel.text = NSStringFromFormat(@"%d 楼", floorIndex + 1);
 }
 
 - (void)setReply:(V2ReplyModel *)reply
@@ -98,22 +91,21 @@
     _reply = reply;
     
     [self.icon sd_setImageWithURL:[NSURL URLWithString:reply.member.avatar_normal]];
-    self.contentLabel.attributedString = [[NSAttributedString alloc] initWithData:[reply.content_rendered dataUsingEncoding:NSUnicodeStringEncoding] options:@{NSDocumentTypeDocumentAttribute : NSHTMLTextDocumentType} documentAttributes:nil error:nil];
+    self.contentLabel.htmlString = reply.content_rendered;
     self.userNameLabe.text = _reply.member.username;
     self.timeLabel.text = _reply.created;
 }
 
+
 - (CGFloat)heightForCellWithWidth:(CGFloat )width
 {
-    self.contentLabel.preferWidth = self.width - 10;
-    
-    YCLog(@"reply 的 高 %g",self.contentLabel.height);
-
-    CGSize si = CGSizeMake(self.width, [self systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height + self.contentLabel.height);
-    self.height = si.height;
-    YCLog(@"replyCell的高: %g", si.height);
+    self.contentLabel.preferWidth = self.contentLabel.width;
+    NSAssert(_contentLabel.htmlString.length > 0, @"htmlString 未有值, 不能获得高度");
+    CGSize si = CGSizeMake(width, self.baseHeight + self.contentLabel.contentHeight);
+    _reply.heightInCell = si.height;
     return si.height;
 }
+
 
 - (void)thxDidClick:(UIButton *)sender
 {

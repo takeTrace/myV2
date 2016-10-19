@@ -39,7 +39,6 @@
 - (CGSize)sizeThatFitWidth:(CGFloat)width
 {
     self.contentLabel.preferWidth = width;
-    NSLog(@"contentLabel.Size: %f", self.contentLabel.contentHeight);
     
     NSLog(@"高高高%g",self.contentLabel.height);
     self.titleLabel.preferredMaxLayoutWidth = width - 10;
@@ -93,9 +92,11 @@
 {
     _topic = topic;
     
-    _contentLabel.attributedString = [[NSAttributedString alloc] initWithData:[_topic.content_rendered dataUsingEncoding:NSUnicodeStringEncoding] options:@{NSDocumentTypeDocumentAttribute : NSHTMLTextDocumentType} documentAttributes:nil error:nil];
-    _contentLabel.recongnizeLinkName = NSLinkAttributeName;
+//    _contentLabel.attributedString = [[NSMutableAttributedString alloc] initWithData:[_topic.content_rendered dataUsingEncoding:NSUnicodeStringEncoding] options:@{NSDocumentTypeDocumentAttribute : NSHTMLTextDocumentType} documentAttributes:nil error:nil];
+//    _contentLabel.recongnizeLinkName = NSLinkAttributeName;
     
+    
+    _contentLabel.htmlString = _topic.content_rendered;
     
     
     _nodeLabel.text = topic.node.title;

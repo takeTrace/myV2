@@ -20,8 +20,21 @@ a v2ex client, i know there is some client exist and better, but, i can create o
                 发布主题和回复
                 封装 MMDrawer
                 将显示富文本的控件换成第三方
-                尝试 gallop 或 ty 或 yytext, 但这可能需要自己解析出没一段再渲染出来
-                
+                尝试 ~gallop~ 或 ty 或 yytext, 但这可能需要自己解析出没一段再渲染出来
+                在传回的 content 好像是 markdown 格式, 可以查查看看有没有解析显示 markdown 文本的控件, YYText 能显示, 之后先试试, 
+                还有[MarkdownTextView](https://github.com/indragiek/MarkdownTextView)
+                http://nightfade.github.io/2015/06/26/ios-markdown-rendering/
+                这里有讲到怎么解析并显示 markdown 控件, 用的是解析转换工具转换成 HTML 格式, 再用 DTCoreText 配合 TTTAttributedLabel 来实现显示, 等下学习下, 有个疑问, 如果转换成功是列表或者其他形式的标签的话, 属性文本能正确展示出来吗? 
+
+                 关于在回复中有评论出现图片的图片大小超出的处理: 目前是想遍历属性字符串, 把图片 attach 设定好 bounds
+
+                  测试了下原生的, 对代码快的支持貌似也不太好
+
+- gallop 可以自带有解析,可以试试看效果, gallop 对于其中没有匹配的标签, 解析无力, 需要自己设置好对应标签的 config 才会在对应的标签有所处理, 按照里面的代码, 应该没有对应标签时都当做文本处理, 但是试了发现有些情况处理不了,  显示 NSAttributedString 的话对于添加 UIImageView 进去但是 加载好图片后不能刷新....
+- TYAttributedLabel 本身没有直接解析 HTML 文本的功能, 只能自己解析了对应到相应的属性去渲染出来, 试试显示 NSAttributedString. 
+- 以上两种方法都需要自己解析出对应的标签, 但是 HTML 的标签有时候挺多的, 自己解析完比较繁杂. 就目前想先完成项目来说, 是下策, 在其他方法行不通的时候再去尝试了
+- 还有几个显示 HTML 文本的第三方控件, 但是对于网络图片的显示不是很好, 改动代码可以加载网络图, 但是要异步加载那改的就比较繁琐了, 而且好像直接用的 [nsstring rangeOf:] 来判断和替换的, 感觉这样好像挺耗性能的, 加上长期没有维护了, 真是下下策...
+- 
 
 *     关于可翻页的数据进行上拉加载更多:
     -     应该在刷新后确定是这应用最....额, 因为服务端不能返回按照 id大小返回, 所以为了确保上拉时是跟着前面下拉不久的...不然从缓存的列表上拉的话...将会是比较新的数据但是排在后面(或者不修改本地记录时间机制,会排在前面, 这样也会排在第一页之前了...但是上啦刷新的时候就看不到新加载的了, 或者在改变上拉加载的本地时间记录小于最后一条的话, ),

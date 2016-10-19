@@ -31,7 +31,7 @@
 @interface YCAttributeLabel : UIView
 /**
  *   传入要显示的属性文本     */
-@property (nonatomic, strong) NSAttributedString *attributedString;
+@property (nonatomic, strong) NSMutableAttributedString *attributedString;
 /**
  *   需要识别的链接(name)     */
 @property (nonatomic, copy) NSString *recongnizeLinkName;

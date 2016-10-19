@@ -44,7 +44,7 @@
         
         /**
          *    计算每个回复模型的高     */
-        ReplyCell *cell = [ReplyCell cell];
+        __block ReplyCell *cell = [ReplyCell cell];
         [replies enumerateObjectsUsingBlock:^(V2ReplyModel * _Nonnull reply, NSUInteger idx, BOOL * _Nonnull stop) {
             cell.reply = reply;
             reply.heightInCell = [cell heightForCellWithWidth:YCScreenW];
@@ -173,7 +173,13 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     V2ReplyModel *reply = self.replies[indexPath.row];
+//    YCPlog;
+//    YCLog(@"%g", reply.heightInCell);
     return reply.heightInCell;
+    
+//    ReplyCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+//    
+//    return [cell heightForCellWithWidth:YCScreenW];
 }
 
 
